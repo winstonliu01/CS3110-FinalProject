@@ -27,7 +27,7 @@ exception UnknownExit of exit_name
 
 (** [from_json j] is the adventure that [j] represents. Requires: [j] is
     a valid JSON adventure representation. *)
-val from_json : Yojson.Basic.t -> t
+val from_json : t -> t
 
 (** [start_room a] is the identifier of the starting room in adventure
     [a]. *)

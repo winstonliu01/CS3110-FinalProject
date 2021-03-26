@@ -1,0 +1,15 @@
+### Starting build.
+Backtrace:
+                      - Failed to build the target ounit2.cmo
+                          - Building ounit2.cmo:
+                              - Failed to build all of these:
+                                  - Building ounit2.ml:
+                                      - Failed to build all of these:
+                                          - Building ounit2.mly
+                                          - Building ounit2.mll
+                                  - Building ounit2.mli:
+                                      - Building ounit2.mly
+                                  - Building ounit2.mlpack
+                                  - Building ounit2.mli:
+                                      - Building ounit2.mly
+# Compilation unsuccessful.
