@@ -1,7 +1,5 @@
 open OUnit2
-open Adventure
-open Command
-open State
+open Deck
 
 (********************************************************************
    Here are some helper functions for your testing of set-like lists. 
@@ -54,27 +52,8 @@ let cmp_demo =
    End helper functions.
  ********************************************************************)
 
-(* You are welcome to add strings containing JSON here, and use them as
-   the basis for unit tests. Or you can add .json files in this
-   directory and use them, too. Any .json files in this directory will
-   be included by [make zip] as part of your CMS submission. *)
-
-(* You should not be testing any helper functions here. Test only the
-   functions exposed in the [.mli] files. Do not expose your helper
-   functions. See the handout for an explanation. *)
-
-(* You are free to reorganize anything below here. *)
-
-let adventure_tests =
-  [ (* TODO: add tests for the Adventure module here *) ]
-
-let command_tests =
-  [ (* TODO: add tests for the Command module here *) ]
-
-let state_tests = [ (* TODO: add tests for the State module here *) ]
-
 let suite =
-  "test suite for A2"
-  >::: List.flatten [ adventure_tests; command_tests; state_tests ]
+  "test suite for blackjack"
+  >::: List.flatten [  ]
 
 let _ = run_test_tt_main suite
