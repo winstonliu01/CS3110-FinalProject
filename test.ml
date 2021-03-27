@@ -52,6 +52,8 @@ let cmp_demo =
    End helper functions.
  ********************************************************************)
 
-let suite = "test suite for blackjack" >::: List.flatten []
+let deck_tests = []
+
+let suite = "test suite for blackjack" >::: List.flatten [ deck_tests ]
 
 let _ = run_test_tt_main suite
