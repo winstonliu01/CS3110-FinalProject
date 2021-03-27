@@ -10,18 +10,18 @@ default: build
 	OCAMLRUNPARAM=b utop
 
 build:
-  $(OCAMLBUILD) $(OBJECTS)
+	$(OCAMLBUILD) $(OBJECTS)
 
 test:
-  $(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
+	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
 
 play:
-  $(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
+	$(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
 
 zip:
-  zip blackjack.zip *.ml* .sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile  
-  
+	zip blackjack.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile	
+	
 clean:
-  ocamlbuild -clean
-  rm -rf blackjack.zip
+	ocamlbuild -clean
+	rm -rf _doc.public _doc.private blackjack.zip
 

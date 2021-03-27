@@ -77,6 +77,8 @@ let remove deck = match deck with h :: t -> t | [] -> raise Empty
 
 let empty deck = List.length deck < 0
 
+let sort_deck deck = List.sort compare deck
+
 let header = " _______ "
 
 let print_rank rank = "|   " ^ rank ^ "   |"
@@ -109,5 +111,3 @@ let print_card_helper suite rank =
   print_list card_list
 
 let print_card (card : card) = print_card_helper card.suite card.rank
-
-let sort_deck deck = List.sort compare deck
