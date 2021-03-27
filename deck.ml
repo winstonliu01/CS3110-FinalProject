@@ -54,8 +54,40 @@ let rec create_suite suite acc =
 
 let create = List.rev (create_suite suite_lst [])
 
-let shuffle = failwith "Unimplemented"
+(*Code credit belongs to Jeffrey Scofield.
+  https://stackoverflow.com/questions/15095541/how-to-shuffle-list-in-on-in-ocaml
 
-let draw = failwith "Unimplemented"
+  Check if it is AI to use someone else's method *)
 
-let print_card = failwith "Unimplemented"
+(* ToDo - This current shuffle is the same each time the program runs,
+   so it isn't truly randomnized. Need to fix this *)
+let shuffle deck =
+  let nd = List.map (fun c -> (Random.bits (), c)) deck in
+  let sond = List.sort compare nd in
+  List.map snd sond
+
+let draw deck = List.hd deck
+
+let header = " ______ "
+
+let print_rank rank = "|   " ^ rank ^ "   |"
+
+let print_suite suite = "|   " ^ suite ^ "   |"
+
+let print_norm = "|      |"
+
+(*Style needs work*)
+let print_card_helper suite rank =
+  [
+    header;
+    print_rank rank;
+    print_norm;
+    print_norm;
+    print_suite suite;
+    print_norm;
+    print_norm;
+    print_rank rank;
+    header;
+  ]
+
+let print_card (card : t) = print_card_helper card.suite card.rank

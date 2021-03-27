@@ -12,8 +12,8 @@ val create : t list
 (** [shuffle deck] is [deck] shuffled randomly *)
 val shuffle : t list -> t list
 
-(** [draw deck] is a card picked from [deck] *)
+(** [draw deck] is the first card picked from [deck] *)
 val draw : t list -> t
 
 (** [print_card card] is [card] displayed in our string format *)
-val print_card : t
+val print_card : t -> string list
