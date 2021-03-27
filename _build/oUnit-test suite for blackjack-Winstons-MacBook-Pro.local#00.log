@@ -1,0 +1,57 @@
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Runner: processes
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Chooser: simple
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration suite_name = "test suite for blackjack"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration cache_filename = "/Users/Winston/3110/CS3110-FinalProject/_build/oUnit-$(suite_name).cache"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration run_gc_full_major = "true"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration display = "true"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration results_style_1_X = "false"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration testdata_dir = "none"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration health_check_interval = "1."
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration verbose = "false"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration chooser = "simple"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration output_html_dir = "none"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration processes_kill_period = "5."
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration runner = "processes"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration shards = "2"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration processes_grace_period = "5."
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration log_encoding = "utf-8"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration output_junit_file = "none"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration ci = "false"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Configuration output_file = "/Users/Winston/3110/CS3110-FinalProject/_build/oUnit-$(suite_name)-$(shard_id).log"
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Using 2 workers maximum.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Starting worker number Winstons-MacBook-Pro.local#01.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Worker Winstons-MacBook-Pro.local#01 started.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Starting worker number Winstons-MacBook-Pro.local#02.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Worker Winstons-MacBook-Pro.local#02 started.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Still 2 tests running : test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 2 tests running: test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Still 2 tests running : test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 2 tests running: test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#01 E: Test test suite for blackjack:0:Random Shuffle 1 has failed.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#01 E: not equal in test test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#01 E: Raised at OUnitAssert.assert_failure in file "src/lib/ounit2/advanced/oUnitAssert.ml", line 45, characters 2-27
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#01 E: 
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Still 2 tests running : test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 2 tests running: test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#02 I: Start test test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Still 2 tests running : test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 2 tests running: test suite for blackjack:1:Random Shuffle 2, test suite for blackjack:0:Random Shuffle 1.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Still 1 tests running : test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 1 tests running: test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#02 E: Test test suite for blackjack:1:Random Shuffle 2 has failed.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#02 E: not equal in test test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#02 E: Raised at OUnitAssert.assert_failure in file "src/lib/ounit2/advanced/oUnitAssert.ml", line 45, characters 2-27
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#02 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#02 E: 
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Still 1 tests running : test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 1 tests running: test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#02 I: End test test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Still 1 tests running : test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 1 tests running: test suite for blackjack:1:Random Shuffle 2.
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: 0 tests running: .
+2021-03-27T19:19:50+00:00 Winstons-MacBook-Pro.local#00 I: Worker Winstons-MacBook-Pro.local#01 has ended.
+2021-03-27T19:20:01+00:00 Winstons-MacBook-Pro.local#00 E: Worker return status: Killed by signal -7
+2021-03-27T19:20:01+00:00 Winstons-MacBook-Pro.local#00 I: Worker Winstons-MacBook-Pro.local#02 has ended.
