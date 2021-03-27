@@ -7,7 +7,7 @@ MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
-  OCAMLRUNPARAM=b utop
+	OCAMLRUNPARAM=b utop
 
 build:
   $(OCAMLBUILD) $(OBJECTS)
@@ -19,7 +19,7 @@ play:
   $(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
 
 zip:
-  zip blackjack.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile  
+  zip blackjack.zip *.ml* .sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile  
   
 clean:
   ocamlbuild -clean
