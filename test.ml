@@ -12,6 +12,8 @@ let deck_tests =
   [
     shuffle_test "Random Shuffle 1" (shuffle create) create;
     shuffle_test "Random Shuffle 2" (shuffle create) create;
+    shuffle_test "Random Shuffle 3" (shuffle create) create;
+    shuffle_test "Random Shuffle 4" (shuffle create) create;
   ]
 
 let suite = "test suite for blackjack" >::: List.flatten [ deck_tests ]
