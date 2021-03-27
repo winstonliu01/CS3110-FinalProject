@@ -1,15 +1,10 @@
 ### Starting build.
-Backtrace:
-                      - Failed to build the target ounit2.cmo
-                          - Building ounit2.cmo:
-                              - Failed to build all of these:
-                                  - Building ounit2.ml:
-                                      - Failed to build all of these:
-                                          - Building ounit2.mly
-                                          - Building ounit2.mll
-                                  - Building ounit2.mli:
-                                      - Building ounit2.mly
-                                  - Building ounit2.mlpack
-                                  - Building ounit2.mli:
-                                      - Building ounit2.mly
-# Compilation unsuccessful.
+# Target: deck.mli.depends, tags: { package(ANSITerminal), package(ounit2), extension:mli, file:deck.mli, ocaml, ocamldep, quiet, traverse }
+/Users/Winston/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.mli > deck.mli.depends
+# Target: deck.cmi, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:mli, file:deck.mli, interf, ocaml, quiet, traverse }
+/Users/Winston/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o deck.cmi deck.mli
+# Target: deck.ml.depends, tags: { package(ANSITerminal), package(ounit2), extension:ml, file:deck.ml, ocaml, ocamldep, quiet, traverse }
+/Users/Winston/.opam/cs3110-2021sp/bin/ocamldep.opt -modules deck.ml > deck.ml.depends # cached
+# Target: deck.cmo, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:cmo, extension:ml, file:deck.cmo, file:deck.ml, implem, ocaml, quiet, traverse }
+/Users/Winston/.opam/cs3110-2021sp/bin/ocamlc.opt -c -o deck.cmo deck.ml
+# Compilation successful.

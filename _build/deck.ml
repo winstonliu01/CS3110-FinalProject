@@ -1,26 +1,53 @@
-(* Note: You may introduce new code anywhere in this file. *)
+type t = {
+  suite : string;
+  rank : string;
+  point : int list;
+}
 
-type room_id = string
+type deck = t list
 
-type exit_name = string
+let suite_lst = [ "♠"; "♥"; "♦"; "♣" ]
 
-exception UnknownRoom of room_id
+let rank =
+  [
+    "A";
+    "1";
+    "2";
+    "3";
+    "4";
+    "5";
+    "6";
+    "7";
+    "8";
+    "9";
+    "10";
+    "J";
+    "Q";
+    "K";
+  ]
 
-exception UnknownExit of exit_name
+let point_converter rank = failwith "Unimplemented"
 
-(* TODO: replace [unit] with a type of your own design. *)
-type t = unit
+let rec create_rank suite rank acc =
+  match rank with
+  | [] -> acc
+  | h :: t ->
+      let acc = { suite; rank = h; point = [ 0 ] } :: acc in
+      create_rank suite t acc
 
-let from_json json = failwith "Unimplemented"
+let rec create_suite suite acc =
+  match suite with
+  | [] -> acc
+  | h :: t ->
+      let acc = create_rank h rank acc in
+      create_suite t acc
 
-let start_room adv = failwith "Unimplemented"
+let create = [ { suite = ""; rank = ""; point = [ 9 ] } ]
 
-let room_ids adv = failwith "Unimplemented"
+(* create_suite suite_lst [] *)
 
-let description adv room = failwith "Unimplemented"
+let shuffle = failwith "Unimplemented"
 
-let exits adv room = failwith "Unimplemented"
+let draw = failwith "Unimplemented"
 
-let next_room adv room ex = failwith "Unimplemented"
-
-let next_rooms adv room = failwith "Unimplemented"
+let print_card = failwith "Unimplemented"
