@@ -1,4 +1,4 @@
-MODULES=deck main author
+MODULES=deck main author guiDemo
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

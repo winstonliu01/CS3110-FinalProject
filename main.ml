@@ -24,7 +24,7 @@ let start_round deck =
   print_card (draw deck);
   command
 
-(** [main ()] prompts for the game to play, then starts it. *)
+(** [main ()] starts blackjack. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
     "\n\nWelcome to the Blackjack engine.\n";

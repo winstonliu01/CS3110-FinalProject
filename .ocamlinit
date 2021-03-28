@@ -1,6 +1,7 @@
 
 #require "ANSITerminal";;
 #require "ounit2";;
+#require "graphics";;
 #directory "_build";;
 #load "deck.cmo";;
 
