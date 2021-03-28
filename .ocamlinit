@@ -4,4 +4,6 @@
 #require "graphics";;
 #directory "_build";;
 #load "deck.cmo";;
+#load "text.cmo";;
+#load "command.cmo";;
 
