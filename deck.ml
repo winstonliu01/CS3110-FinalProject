@@ -87,9 +87,15 @@ let header = " _______ "
 
 let print_rank rank = "|   " ^ rank ^ "   |"
 
+let print_rank10 rank = "|  " ^ rank ^ "   |"
+
 let print_suite suite = "|   " ^ suite ^ "   |"
 
+let print_suite10 suite = "|   " ^ suite ^ "   |"
+
 let print_norm = "|       |"
+
+let print_norm10 = "|       |"
 
 let rec print_list lst =
   match lst with
@@ -99,19 +105,35 @@ let rec print_list lst =
       print_list t
 
 let print_card_helper suite rank =
-  let card_list =
-    [
-      header;
-      print_rank rank;
-      print_norm;
-      print_norm;
-      print_suite suite;
-      print_norm;
-      print_norm;
-      print_rank rank;
-      header;
-    ]
-  in
-  print_list card_list
+  if rank = "10" then
+    let card_list =
+      [
+        header;
+        print_rank10 rank;
+        print_norm10;
+        print_norm10;
+        print_suite10 suite;
+        print_norm10;
+        print_norm10;
+        print_rank10 rank;
+        header;
+      ]
+    in
+    print_list card_list
+  else
+    let card_list =
+      [
+        header;
+        print_rank rank;
+        print_norm;
+        print_norm;
+        print_suite suite;
+        print_norm;
+        print_norm;
+        print_rank rank;
+        header;
+      ]
+    in
+    print_list card_list
 
 let print_card (card : card) = print_card_helper card.suite card.rank

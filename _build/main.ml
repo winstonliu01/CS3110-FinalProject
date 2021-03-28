@@ -22,7 +22,7 @@ let command deck total =
   parse_input deck total
 
 let ace_checker total =
-  if total + 11 > 21 then
+  if total + 11 >= 22 then
     let total = 1 in
     total
   else
@@ -31,21 +31,21 @@ let ace_checker total =
 
 let point_add total card =
   match card.rank with
-  | "A" -> ace_checker total
+  | "A" -> total + ace_checker total
   | _ -> total + List.hd card.point
 
 let start_round deck =
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
   print_endline dealer_card1_string;
   dealer_first_draw deck;
-  let deck1 = remove deck in
+  let deck1 = shuffle (remove deck) in
   print_endline "\nYour cards are...\n";
   print_card (draw deck1);
   let total1 = point_add 0 (draw deck1) in
-  let deck2 = remove deck1 in
+  let deck2 = shuffle (remove deck1) in
   print_card (draw deck2);
   let total2 = point_add total1 (draw deck2) in
-  command (remove deck2) total2
+  command (shuffle (remove deck2)) total2
 
 let init_deck = Deck.shuffle create
 
