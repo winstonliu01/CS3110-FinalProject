@@ -1,36 +1,36 @@
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:0:Full Deck Size Init.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:0:Full Deck Size Init is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:0:Full Deck Size Init.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:2:One card removed.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:2:One card removed is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:2:One card removed.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:4:Random Shuffle 1 - Cards still present.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:4:Random Shuffle 1 - Cards still present is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:4:Random Shuffle 1 - Cards still present.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:6:Random Shuffle 3 - Cards still present.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:6:Random Shuffle 3 - Cards still present is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:6:Random Shuffle 3 - Cards still present.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:8:shuffling changes the deck.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:8:shuffling changes the deck is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:8:shuffling changes the deck.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:10:Not empty.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:10:Not empty is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:10:Not empty.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:12:Second card.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:12:Second card is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:12:Second card.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:14:Already proper stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:14:Already proper stay is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:14:Already proper stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:16:Capitalized stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:16:Capitalized stay is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:16:Capitalized stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:18:Spaced stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:18:Spaced stay is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:18:Spaced stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:20:Capitalized + spaced stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:20:Capitalized + spaced stay is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:20:Capitalized + spaced stay.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:22:bad string.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:22:bad string is successful.
-2021-03-28T21:02:11+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:22:bad string.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:0:Full Deck Size Init.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:0:Full Deck Size Init is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:0:Full Deck Size Init.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:2:One card removed.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:2:One card removed is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:2:One card removed.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:4:Random Shuffle 1 - Cards still present.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:4:Random Shuffle 1 - Cards still present is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:4:Random Shuffle 1 - Cards still present.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:6:Random Shuffle 3 - Cards still present.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:6:Random Shuffle 3 - Cards still present is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:6:Random Shuffle 3 - Cards still present.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:8:shuffling changes the deck.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:8:shuffling changes the deck is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:8:shuffling changes the deck.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:10:Not empty.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:10:Not empty is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:10:Not empty.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:12:Second card.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:12:Second card is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:12:Second card.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:14:Already proper stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:14:Already proper stay is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:14:Already proper stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:16:Capitalized stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:16:Capitalized stay is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:16:Capitalized stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:18:Spaced stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:18:Spaced stay is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:18:Spaced stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:20:Capitalized + spaced stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:20:Capitalized + spaced stay is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:20:Capitalized + spaced stay.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Start test test suite for blackjack:22:bad string.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: Test test suite for blackjack:22:bad string is successful.
+2021-03-28T21:36:24+00:00 Winstons-MacBook-Pro.local#01 I: End test test suite for blackjack:22:bad string.

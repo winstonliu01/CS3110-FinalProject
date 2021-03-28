@@ -24,13 +24,13 @@ ocamlfind ocamldep -package ounit2 -package ANSITerminal -package graphics -modu
 # Target: command.cmo, tags: { package(ANSITerminal), package(graphics), package(ounit2), byte, compile, extension:cmo, extension:ml, file:command.cmo, file:command.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -package graphics -o command.cmo command.ml # cached
 # Target: deck.ml.depends, tags: { package(ANSITerminal), package(graphics), package(ounit2), extension:ml, file:deck.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package ounit2 -package ANSITerminal -package graphics -modules deck.ml > deck.ml.depends
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -package graphics -modules deck.ml > deck.ml.depends # cached
+# Target: deck.cmo, tags: { package(ANSITerminal), package(graphics), package(ounit2), byte, compile, extension:cmo, extension:ml, file:deck.cmo, file:deck.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -package graphics -o deck.cmo deck.ml # cached
 # Target: text.ml.depends, tags: { package(ANSITerminal), package(graphics), package(ounit2), extension:ml, file:text.ml, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package ounit2 -package ANSITerminal -package graphics -modules text.ml > text.ml.depends # cached
 # Target: text.cmo, tags: { package(ANSITerminal), package(graphics), package(ounit2), byte, compile, extension:cmo, extension:ml, file:text.cmo, file:text.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -package graphics -o text.cmo text.ml # cached
-# Target: deck.cmo, tags: { package(ANSITerminal), package(graphics), package(ounit2), byte, compile, extension:cmo, extension:ml, file:deck.cmo, file:deck.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -package graphics -o deck.cmo deck.ml
 # Target: main.byte, tags: { package(ANSITerminal), package(graphics), package(ounit2), byte, dont_link_with, extension:byte, file:main.byte, link, ocaml, program, quiet, traverse }
-ocamlfind ocamlc -linkpkg -package ounit2 -package ANSITerminal -package graphics command.cmo deck.cmo text.cmo main.cmo -o main.byte
+ocamlfind ocamlc -linkpkg -package ounit2 -package ANSITerminal -package graphics command.cmo deck.cmo text.cmo main.cmo -o main.byte # cached
 # Compilation successful.

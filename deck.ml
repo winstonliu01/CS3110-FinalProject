@@ -69,7 +69,8 @@ let shuffle (deck : deck) =
     deck_array.(pos) <- deck_array.(j);
     deck_array.(j) <- temp
   done;
-  (Array.to_list deck_array : deck)
+  let deck_lst = (Array.to_list deck_array : deck) in
+  deck_lst
 
 let draw deck = List.hd deck
 
