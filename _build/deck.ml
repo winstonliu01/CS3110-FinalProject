@@ -61,6 +61,8 @@ let rec create_suite suite acc =
 
 let create = List.rev (create_suite suite_lst [])
 
+let _ = Random.self_init ()
+
 let shuffle (deck : deck) =
   let deck_array = Array.of_list deck in
   for pos = List.length deck - 1 downto 1 do
