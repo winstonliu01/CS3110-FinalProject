@@ -29,14 +29,17 @@ let rec parse_input deck total =
         let new_deck = shuffle create in
         card new_deck;
         let new_deck_val = point_add total (draw new_deck) in
+        print_string "> ";
         parse_input (remove new_deck) new_deck_val )
       else card deck;
       let new_val = point_add total (draw deck) in
+      print_string "> ";
       parse_input (remove deck) new_val
   | "stay" ->
-      print_endline ("Your total value is " ^ string_of_int total)
+      print_endline ("Your total value is " ^ string_of_int total ^ ".")
   | _ ->
       print_string "\nInvalid input, please try again.\n\n";
+      print_string "> ";
       parse_input deck total
 
 let command deck total =

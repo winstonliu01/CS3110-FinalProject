@@ -80,7 +80,7 @@ let remove deck = match deck with h :: t -> t | [] -> raise Empty
 
 let size deck = List.length deck
 
-let empty deck = List.length deck < 0
+let empty deck = List.length deck = 0
 
 let sort_deck deck = List.sort compare deck
 

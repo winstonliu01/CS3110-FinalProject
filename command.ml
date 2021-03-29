@@ -12,12 +12,12 @@ let check_verb str =
 
 let valid_length str =
   let str_list = StringLabels.split_on_char ' ' str in
-  if List.length str_list <> 1 then raise Malformed
+  if List.length str_list <> 1 then "invalid"
   else
     let format_str = StringLabels.lowercase_ascii str in
     check_verb format_str
 
-let empty str = if str = "" then raise Empty else valid_length str
+let empty str = if str = "" then "empty" else valid_length str
 
 let deblank str = StringLabels.trim str
 
