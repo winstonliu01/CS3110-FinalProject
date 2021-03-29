@@ -8,7 +8,7 @@ let check_verb str =
   match str with
   | "hit" -> "hit"
   | "stay" -> "stay"
-  | _ -> "invalid input"
+  | _ -> "Invalid input, please try again."
 
 let valid_length str =
   let str_list = StringLabels.split_on_char ' ' str in
