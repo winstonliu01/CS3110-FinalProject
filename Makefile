@@ -1,4 +1,4 @@
-MODULES=deck main author guiDemo text command
+MODULES=deck main author text command
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
