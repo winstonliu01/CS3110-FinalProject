@@ -88,17 +88,16 @@ let point card = card.point
 
 let header = " _______ "
 
-let print_rank rank = "|   " ^ rank ^ "   |"
+let print_rank rank is_ten =
+  if is_ten = false then "|   " ^ rank ^ "   |"
+  else "|  " ^ rank ^ "   |"
 
-let print_rank10 rank = "|  " ^ rank ^ "   |"
+let print_suite suite is_ten =
+  if is_ten = false then "|   " ^ suite ^ "   |"
+  else "|   " ^ suite ^ "   |"
 
-let print_suite suite = "|   " ^ suite ^ "   |"
-
-let print_suite10 suite = "|   " ^ suite ^ "   |"
-
-let print_norm = "|       |"
-
-let print_norm10 = "|       |"
+let print_norm is_ten =
+  if is_ten = false then "|       |" else "|       |"
 
 let rec print_list lst =
   match lst with
@@ -112,13 +111,13 @@ let print_card_helper suite rank =
     let card_list =
       [
         header;
-        print_rank10 rank;
-        print_norm10;
-        print_norm10;
-        print_suite10 suite;
-        print_norm10;
-        print_norm10;
-        print_rank10 rank;
+        print_rank rank true;
+        print_norm true;
+        print_norm true;
+        print_suite suite true;
+        print_norm true;
+        print_norm true;
+        print_rank rank true;
         header;
       ]
     in
@@ -127,13 +126,13 @@ let print_card_helper suite rank =
     let card_list =
       [
         header;
-        print_rank rank;
-        print_norm;
-        print_norm;
-        print_suite suite;
-        print_norm;
-        print_norm;
-        print_rank rank;
+        print_rank rank false;
+        print_norm false;
+        print_norm false;
+        print_suite suite false;
+        print_norm false;
+        print_norm false;
+        print_rank rank false;
         header;
       ]
     in
