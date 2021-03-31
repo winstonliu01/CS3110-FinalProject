@@ -1,0 +1,11 @@
+Blackjack Quick Start Guide
+
+We are operating under the assumption that the user has downloaded OCaml
+and the cs3110-2021sp opam switch already and it is functional.
+
+1. Through the command line, change into the directory in which you are 
+storing the downloaded files
+2. Run "make clean" which will get rid of _build (shouldn't be there in the 
+first place), but it is a good step to take out of precaution
+3. Run "make build" which will create the modules necessary to run the game
+4. Now, you are ready to start the game. To begin the game, run "make play"
