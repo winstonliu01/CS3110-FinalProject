@@ -19,7 +19,7 @@ play:
 	clear && $(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 
 zip:
-	zip blackjack.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile	
+	zip blackjack.zip *.ml* *.txt* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile	
 	
 clean:
 	ocamlbuild -clean
