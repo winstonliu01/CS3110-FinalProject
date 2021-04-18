@@ -25,3 +25,11 @@ val player_init : player
 
 (*[dealer_init] is the state of the dealer when the game begins*)
 val dealer_init : dealer
+
+(*[reset_player] is the state of the player after they bust or the round
+  is over. Hand and hand value are cleared*)
+val reset_player : player -> player
+
+(*[reset_dealer] is the state of the dealer after they bust the round is
+  over. Hand and hand value are cleared*)
+val reset_dealer : dealer -> dealer

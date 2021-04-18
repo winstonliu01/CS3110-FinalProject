@@ -9,10 +9,10 @@ val print_hand : card list -> unit
 val card : deck -> unit
 
 (*[parse_input] prints depending on whether a hit or stay is inputted*)
-val parse_input : deck -> int -> unit
+val parse_input : deck -> int -> player -> dealer -> unit
 
 (*[command] prompts the user for an action*)
-val command : deck -> int -> unit
+val command : deck -> int -> player -> dealer -> unit
 
 (*[start_round] is the state of the game when a new round begins*)
 val start_round : deck -> player -> dealer -> unit
