@@ -1,7 +1,6 @@
 open Text
 open Deck
 open Player
-open Sround
 
 let init_deck = Deck.shuffle create
 
@@ -25,7 +24,7 @@ let rec yes_no
     (player : player)
     (dealer : dealer) =
   let y_n = read_line () in
-  match Command.check_yn y_n with
+  match Command.check_yes_no y_n with
   | "yes" -> "yes"
   | "no" -> "no"
   | _ ->
@@ -35,7 +34,7 @@ let rec yes_no
 
 let rec parse_input deck total (player : player) (dealer : dealer) =
   let line = read_line () in
-  match Command.check_string line with
+  match Command.check_hit_stay line with
   | "hit" ->
       (*Empty Deck: Create a newly shuffled deck Draw a card and extract
         the point value Then parse for a hit or stay command *)
@@ -62,3 +61,21 @@ let rec parse_input deck total (player : player) (dealer : dealer) =
       print_string "\nInvalid input, please try again.\n\n";
       print_string "> ";
       parse_input deck total player dealer
+
+(* let rec print_hand (deck : card list) = match deck with | [] -> () |
+   h :: t -> print_card h; print_hand t
+
+   (*ToDo - Fix hand_val*) let start_round (deck : deck) (player :
+   player) (dealer : dealer) = (*Adding drawn card to dealer.hand*)
+   print_hand (dealer.hand @ [ draw deck ]); let deck1 = remove deck in
+   let deck2 = shuffle (remove deck1) in print_endline "\nYour cards
+   are...\n"; print_hand (player.hand @ [ draw deck1 ]); print_hand
+   (player.hand @ [ draw deck2 ]); (*Update field and do something
+   else?*) print_endline h_or_s; print_string "> "
+
+   (*Make play - circular dependency*) (* parse_input (shuffle (remove
+   deck2)) player.hand_val player dealer*)
+
+   (* player.hand_val = point_add 0 (draw deck1) + point_add 0 (draw
+   deck2); parse_input (shuffle (remove deck2)) player.hand_val player
+   dealer *) *)

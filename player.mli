@@ -20,10 +20,13 @@ val point_add : int -> card -> player -> int
 (*[ace_checker] is the value of the ace depending on the scenario*)
 val ace_checker : int -> player -> int
 
+(*[multi_ace] is the value of the aces depending on the scenario*)
 val multi_ace : int -> int -> int
 
+(*[one_ace] is the value of the ace depending on the scenario*)
 val one_ace : int -> int
 
+(*[ace_count] is how many aces are in a player's hand*)
 val ace_count : player -> int
 
 (*[player_init] is the state of the player when the game begins*)

@@ -56,28 +56,50 @@ let deck_tests =
   ]
 
 (******* Command Testing *******)
-let command_test
+let check_hit_stay_test
     (name : string)
     (input : string)
     (expected_output : string) : test =
-  name >:: fun _ -> assert_equal expected_output (check_string input)
+  name >:: fun _ -> assert_equal expected_output (check_hit_stay input)
+
+let check_yes_no_test
+    (name : string)
+    (input : string)
+    (expected_output : string) : test =
+  name >:: fun _ -> assert_equal expected_output (check_yes_no input)
+
+let check_1_11_test
+    (name : string)
+    (input : string)
+    (expected_output : string) : test =
+  name >:: fun _ -> assert_equal expected_output (check_1_11 input)
 
 let command_tests =
   [
-    command_test "Already proper hit" "hit" "hit";
-    command_test "Already proper stay" "stay" "stay";
-    command_test "Capitalized hit" "hIt" "hit";
-    command_test "Capitalized stay" "sTAY" "stay";
-    command_test "Spaced hit" "    hit   " "hit";
-    command_test "Spaced stay" "   stay     " "stay";
-    command_test "Capitalized + spaced hit" "    HIT   " "hit";
-    command_test "Capitalized + spaced stay" "   STAY     " "stay";
-    ( "empty string" >:: fun _ ->
-      assert_raises Empty (fun () -> check_string " ") );
-    ( "bad string" >:: fun _ ->
-      assert_raises Malformed (fun () -> check_string "jiberish") );
-    ( "bad string" >:: fun _ ->
-      assert_raises Malformed (fun () -> check_string "h i t") );
+    check_hit_stay_test "Already proper hit" "hit" "hit";
+    check_hit_stay_test "Already proper stay" "stay" "stay";
+    check_hit_stay_test "Capitalized hit" "hIt" "hit";
+    check_hit_stay_test "Capitalized stay" "sTAY" "stay";
+    check_hit_stay_test "Spaced hit" "    hit   " "hit";
+    check_hit_stay_test "Spaced stay" "   stay     " "stay";
+    check_hit_stay_test "Capitalized + spaced hit" "    HIT   " "hit";
+    check_hit_stay_test "Capitalized + spaced stay" "   STAY     "
+      "stay";
+    check_hit_stay_test "empty string" "  " "empty";
+    check_hit_stay_test "malformed string" "jiberish" "invalid input";
+    check_hit_stay_test "malformed string" "h i t" "invalid input";
+    check_yes_no_test "Already proper yes" "yes" "yes";
+    check_yes_no_test "Already proper no" "no" "no";
+    check_yes_no_test "Capitalized yes" "YES" "yes";
+    check_yes_no_test "Capitalized no" "nO" "no";
+    check_yes_no_test "Spaced yes" "    yes      " "yes";
+    check_yes_no_test "Spaced no" "no     " "no";
+    check_yes_no_test "empty string" "  " "empty";
+    check_yes_no_test "malformed string" "ocaml" "invalid input";
+    check_1_11_test "Already proper 1" "1" "1";
+    check_1_11_test "Already proper 11" "11" "11";
+    check_1_11_test "empty string" "     " "empty";
+    check_1_11_test "malformed string" "22" "invalid input";
   ]
 
 let suite =
