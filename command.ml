@@ -1,29 +1,18 @@
 type command = string
 
-exception Empty
-
-exception Malformed
-
-let check_verb str =
-  match str with
-  | "hit" -> "hit"
-  | "stay" -> "stay"
-  | _ -> "invalid input"
-
-let valid_length str =
+let valid_length_1_11 str =
   let str_list = StringLabels.split_on_char ' ' str in
-  if List.length str_list <> 1 then "invalid"
+  if List.length str_list <> 1 then "invalid input"
   else
     let format_str = StringLabels.lowercase_ascii str in
-    check_verb format_str
+    match format_str with
+    | "1" -> "1"
+    | "11" -> "11"
+    | _ -> "invalid input"
 
-let empty str = if str = "" then "empty" else valid_length str
-
-let deblank str = StringLabels.trim str
-
-let process_yn str =
+let valid_length_yes_no str =
   let str_list = StringLabels.split_on_char ' ' str in
-  if List.length str_list <> 1 then "invalid"
+  if List.length str_list <> 1 then "invalid input"
   else
     let format_str = StringLabels.lowercase_ascii str in
     match format_str with
@@ -31,10 +20,28 @@ let process_yn str =
     | "no" -> "no"
     | _ -> "invalid input"
 
-let check_yn str =
-  let trim_str = deblank str in
-  process_yn trim_str
+let valid_length_hit_stay str =
+  let str_list = StringLabels.split_on_char ' ' str in
+  if List.length str_list <> 1 then "invalid input"
+  else
+    let format_str = StringLabels.lowercase_ascii str in
+    match format_str with
+    | "hit" -> "hit"
+    | "stay" -> "stay"
+    | _ -> "invalid input"
 
-let check_string str =
+let empty str funct = if str = "" then "empty" else funct str
+
+let deblank str = StringLabels.trim str
+
+let check_1_11 str =
   let trim_str = deblank str in
-  empty trim_str
+  empty trim_str valid_length_1_11
+
+let check_yes_no str =
+  let trim_str = deblank str in
+  empty trim_str valid_length_yes_no
+
+let check_hit_stay str =
+  let trim_str = deblank str in
+  empty trim_str valid_length_hit_stay
