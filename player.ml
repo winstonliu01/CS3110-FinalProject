@@ -1,4 +1,5 @@
 open Deck
+open Command
 
 type player = {
   hand : card list;
@@ -20,38 +21,47 @@ let reset_player player =
 
 let reset_dealer (dealer : dealer) = { hand = []; hand_val = 0 }
 
-(* Cases: 1. Bust with 11 but not 1 \n 2. Bust with both 11 or 1 \n 3.
-   No bust with either 11 or 1 *)
+let rec ace_value temp =
+  let line = read_line () in
+  match Command.check_1_11 line with
+  | "1" -> 1
+  | "11" -> 11
+  | _ ->
+      print_string "\nInvalid input, please try again.\n\n";
+      print_string "> ";
+      ace_value 0
 
-let rec ace_counter_helper hand acc =
-  match hand with
-  | [] -> acc
-  | h :: t ->
-      if h.rank = "A" then ace_counter_helper t acc + 1
-      else ace_counter_helper t acc
+(*If Ace is 11 and bust, we set it to one which could bust as well. But
+  we take care of that later. Otherwise if it doesn't we let the user
+  decide.*)
+let ace_checker total = if total + 11 >= 21 then 1 else ace_value 0
 
-let ace_count (player : player) = ace_counter_helper player.hand 0
+let bust_checker_player (player : player) = player.hand_val > 21
 
-(* n is the amount of Aces: n * 1 or 11 + (n-1) *)
+let bust_checker_dealer (dealer : dealer) = dealer.hand_val > 21
 
-let one_ace total =
-  if total + 11 >= 22 && total + 1 <= 21 then
-    let total = 1 in
-    total
-  else if total + 11 <= 21 && total + 1 <= 21 then
-    (*User input to decide*)
-    let total = 11 in
-    total
-  else 100
-
-let multi_ace num total =
-  if 11 + (num - 1) > 21 then total + num else total + 11 + (num - 1)
-
-let ace_checker total (player : player) =
-  let num_aces = ace_count player in
-  if num_aces = 1 then one_ace total else multi_ace num_aces total
-
-let point_add total card (player : player) =
+let point_add_player total card (player : player) =
   match card.rank with
-  | "A" -> total + ace_checker total player
-  | _ -> total + List.hd card.point
+  | "A" ->
+      let updated_total = total + ace_checker total in
+      {
+        hand = player.hand;
+        hand_val = updated_total;
+        chips = player.chips;
+      }
+  | _ ->
+      let updated_total = total + List.hd card.point in
+      {
+        hand = player.hand;
+        hand_val = updated_total;
+        chips = player.chips;
+      }
+
+let point_add_dealer total card (dealer : dealer) =
+  match card.rank with
+  | "A" ->
+      let updated_total = total + ace_checker total in
+      { hand = dealer.hand; hand_val = updated_total }
+  | _ ->
+      let updated_total = total + List.hd card.point in
+      { hand = dealer.hand; hand_val = updated_total }
