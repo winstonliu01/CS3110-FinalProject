@@ -41,7 +41,7 @@ let rec parse_input deck (player : player) (dealer : dealer) =
         ("Your total value is " ^ string_of_int player.hand_val ^ ".");
       player
   | _ ->
-      print_string "\nInvalid input, please try again.";
+      print_endline "\nInvalid input, please try again.";
       print_string "> ";
       parse_input deck player dealer
 

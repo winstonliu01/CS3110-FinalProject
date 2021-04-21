@@ -17,7 +17,7 @@ let rec yes_no (player : player) =
   | "yes" -> "yes"
   | "no" -> "no"
   | _ ->
-      print_string "Invalid input, please try again.";
+      print_endline "Invalid input, please try again.";
       print_string "> ";
       yes_no player
 
