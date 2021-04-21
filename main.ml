@@ -35,7 +35,9 @@ let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
   print_endline dealer_card1_string;
   let player = start_round init_deck player_init dealer_init in
-  let player_cont = continue_playing player dealer_init in
+  let player_cont =
+    continue_playing (reset_player player) dealer_init
+  in
   print_endline
     ( "Goodbye, you leave the game with "
     ^ string_of_int player_cont.chips
