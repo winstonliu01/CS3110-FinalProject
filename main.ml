@@ -5,7 +5,8 @@ open Player
 open Round
 
 (*ToDo - Fix the deck in continuation. It is the same deck, we want a
-  new deck each iteration.*)
+  new deck each iteration. Make it so that you can play more than 2
+  rounds.*)
 
 let start_new_round deck player dealer =
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
