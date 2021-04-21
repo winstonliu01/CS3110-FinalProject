@@ -17,6 +17,10 @@ let rec yes_no (player : player) =
   match Command.check_yes_no y_n with
   | "yes" -> "yes"
   | "no" -> "no"
+  | "empty" ->
+      print_endline "\nEmpty input, please try again. \n";
+      print_string "> ";
+      yes_no player
   | _ ->
       print_endline "Invalid input, please try again.";
       print_string "> ";
