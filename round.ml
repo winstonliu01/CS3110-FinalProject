@@ -2,8 +2,7 @@ open Text
 open Deck
 open Player
 
-(*ToDo - yes_no and parse_input Add a case where the message tells you
-  it is empty *)
+(*ToDo - parse_input Add a case where the message tells you it is empty *)
 
 let init_deck = Deck.shuffle create
 
@@ -14,16 +13,6 @@ let card deck =
 let draw_deck deck =
   card deck;
   draw (remove deck)
-
-let rec yes_no (deck : deck) (player : player) (dealer : dealer) =
-  let y_n = read_line () in
-  match Command.check_yes_no y_n with
-  | "yes" -> "yes"
-  | "no" -> "no"
-  | _ ->
-      print_string "\nInvalid input, please try again.\n\n";
-      print_string "> ";
-      yes_no deck player dealer
 
 let rec parse_input deck (player : player) (dealer : dealer) =
   let line = read_line () in
@@ -50,13 +39,9 @@ let rec parse_input deck (player : player) (dealer : dealer) =
   | "stay" ->
       print_endline
         ("Your total value is " ^ string_of_int player.hand_val ^ ".");
-      print_string "The round is over, do you want to continue?";
-      print_string "> ";
-      let response = yes_no deck player dealer in
-      if response = "yes" then print_endline "Starting a new round."
-      else print_endline "Goodbye, thanks for playing."
+      player
   | _ ->
-      print_string "\nInvalid input, please try again.\n\n";
+      print_string "\nInvalid input, please try again.";
       print_string "> ";
       parse_input deck player dealer
 
@@ -83,12 +68,13 @@ let player_start (deck : deck) (player : player) =
       hand = player.hand @ [ dealer_card ];
       hand_val = updated_dealer.hand_val;
       chips = player.chips;
+      bet = player.bet;
+      win_round = player.win_round;
     }
   in
   player
 
-(*ToDo - Add the print message asking whether they want to hit or stay.
-  Get the second card to actually print *)
+(*ToDo - Fix the hand value. Point add is not quite correct*)
 
 let start_round (deck : deck) (player : player) (dealer : dealer) =
   print_card (draw deck);
@@ -100,8 +86,11 @@ let start_round (deck : deck) (player : player) (dealer : dealer) =
   let updated_deck2 = remove updated_deck in
   print_endline "Your second card is: ";
   print_card (draw updated_deck2);
-  let player = player_start updated_deck2 player in
-  parse_input updated_deck2 (player : player) (dealer : dealer)
+  print_endline h_or_s;
+  print_string "> ";
+  let updated_deck3 = remove updated_deck2 in
+  let player = player_start updated_deck3 player in
+  parse_input updated_deck3 (player : player) (dealer : dealer)
 
 (* (*Adding drawn card to dealer.hand*) print_hand (dealer.hand @ [ draw
    deck ]); let deck1 = remove deck in let deck2 = shuffle (remove

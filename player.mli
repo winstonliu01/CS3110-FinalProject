@@ -5,6 +5,8 @@ type player = {
   hand : card list;
   hand_val : int;
   chips : int;
+  bet : int;
+  win_round : bool;
 }
 
 (*type representing a dealer *)

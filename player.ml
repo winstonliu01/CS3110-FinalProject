@@ -5,6 +5,8 @@ type player = {
   hand : card list;
   hand_val : int;
   chips : int;
+  bet : int;
+  win_round : bool;
 }
 
 type dealer = {
@@ -12,12 +14,19 @@ type dealer = {
   hand_val : int;
 }
 
-let player_init = { hand = []; hand_val = 0; chips = 100 }
+let player_init =
+  { hand = []; hand_val = 0; chips = 100; bet = 0; win_round = false }
 
 let dealer_init = { hand = []; hand_val = 0 }
 
 let reset_player player =
-  { hand = []; hand_val = 0; chips = player.chips }
+  {
+    hand = [];
+    hand_val = 0;
+    chips = player.chips;
+    bet = 0;
+    win_round = false;
+  }
 
 let reset_dealer (dealer : dealer) = { hand = []; hand_val = 0 }
 
@@ -48,6 +57,8 @@ let point_add_player total card (player : player) =
         hand = player.hand;
         hand_val = updated_total;
         chips = player.chips;
+        bet = player.bet;
+        win_round = player.win_round;
       }
   | _ ->
       let updated_total = total + List.hd card.point in
@@ -55,6 +66,8 @@ let point_add_player total card (player : player) =
         hand = player.hand;
         hand_val = updated_total;
         chips = player.chips;
+        bet = player.bet;
+        win_round = player.win_round;
       }
 
 let point_add_dealer total card (dealer : dealer) =
