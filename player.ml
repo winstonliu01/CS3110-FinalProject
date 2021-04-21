@@ -28,8 +28,6 @@ let reset_player player =
     win_round = false;
   }
 
-let reset_dealer (dealer : dealer) = { hand = []; hand_val = 0 }
-
 let rec ace_value temp =
   let line = read_line () in
   match Command.check_1_11 line with
