@@ -7,6 +7,7 @@ type player = {
   chips : int;
   bet : int;
   win_round : bool;
+  is_blackjack : bool;
 }
 
 type dealer = {
@@ -15,7 +16,14 @@ type dealer = {
 }
 
 let player_init =
-  { hand = []; hand_val = 0; chips = 100; bet = 0; win_round = false }
+  {
+    hand = [];
+    hand_val = 0;
+    chips = 100;
+    bet = 0;
+    win_round = false;
+    is_blackjack = false;
+  }
 
 let dealer_init = { hand = []; hand_val = 0 }
 
@@ -26,6 +34,7 @@ let reset_player player =
     chips = player.chips;
     bet = 0;
     win_round = false;
+    is_blackjack = false;
   }
 
 let rec ace_value temp =
@@ -44,6 +53,7 @@ let rec ace_value temp =
       print_string "> ";
       ace_value 0
 
+(*Possibly check it some other way?*)
 let black_jack_checker (player : player) =
   match player.hand with
   | [ h; t ] ->
@@ -78,6 +88,7 @@ let point_add_player total card (player : player) =
         chips = player.chips;
         bet = player.bet;
         win_round = player.win_round;
+        is_blackjack = player.is_blackjack;
       }
   | _ ->
       let updated_total = total + List.hd card.point in
@@ -87,6 +98,7 @@ let point_add_player total card (player : player) =
         chips = player.chips;
         bet = player.bet;
         win_round = player.win_round;
+        is_blackjack = player.is_blackjack;
       }
 
 let point_add_dealer total card (dealer : dealer) =

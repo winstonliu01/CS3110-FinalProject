@@ -26,58 +26,10 @@ let player_start (deck : deck) (player : player) =
       chips = player.chips;
       bet = player.bet;
       win_round = player.win_round;
+      is_blackjack = player.is_blackjack;
     }
   in
   player
-
-let rec parse_input deck (player : player) (dealer : dealer) =
-  let line = read_line () in
-  match Command.check_hit_stay line with
-  | "hit" ->
-      if
-        (*Empty Deck: Create a newly shuffled deck Draw a card and
-          extract the point value Then parse for a hit or stay command *)
-        empty deck
-      then (
-        let new_deck = shuffle create in
-        card new_deck;
-        let updated_player = player_start new_deck player in
-        print_string "> ";
-        parse_input new_deck updated_player dealer
-        (* if bust_checker_player player = false then player else
-           parse_input new_deck updated_player dealer*) )
-      else (
-        (*Draw a card and extract point value let card_drawn = draw_deck
-          deck in*)
-        card deck;
-        let updated_player = player_start deck player in
-        print_string "> ";
-        parse_input (remove deck) updated_player dealer
-        (* if bust_checker_player player = false then player else
-           parse_input (remove deck) updated_player dealer *) )
-  | "stay" ->
-      print_endline
-        ( "\nYour total value is "
-        ^ string_of_int player.hand_val
-        ^ ". \n" );
-      (* if bust_checker_player player = false then player else { hand =
-         player.hand; hand_val = player.hand_val; chips = player.chips;
-         bet = player.bet; win_round = true; } *)
-      {
-        hand = player.hand;
-        hand_val = player.hand_val;
-        chips = player.chips;
-        bet = player.bet;
-        win_round = true;
-      }
-  | "empty" ->
-      print_endline "\nEmpty input, please try again. \n";
-      print_string "> ";
-      parse_input deck player dealer
-  | _ ->
-      print_endline "\nInvalid input, please try again. \n";
-      print_string "> ";
-      parse_input deck player dealer
 
 let dealer_start (deck : deck) (dealer : dealer) =
   let dealer_card = draw deck in
@@ -92,6 +44,100 @@ let dealer_start (deck : deck) (dealer : dealer) =
   in
   dealer
 
+let rec parse_input deck (player : player) (dealer : dealer) =
+  let line = read_line () in
+  match Command.check_hit_stay line with
+  | "hit" ->
+      if
+        (*Empty Deck: Create a newly shuffled deck Draw a card and
+          extract the point value Then parse for a hit or stay command *)
+        empty deck
+      then (
+        let new_deck = shuffle create in
+        card new_deck;
+        let updated_player = player_start new_deck player in
+        print_string "> ";
+        if bust_checker_player updated_player = true then
+          {
+            hand = player.hand;
+            hand_val = player.hand_val;
+            chips = player.chips;
+            bet = player.bet;
+            win_round = false;
+            is_blackjack = player.is_blackjack;
+          }
+        else parse_input new_deck updated_player dealer
+        (* if bust_checker_player player = false then player else
+           parse_input new_deck updated_player dealer*) )
+      else (
+        (*Draw a card and extract point value let card_drawn = draw_deck
+          deck in*)
+        card deck;
+        let updated_player = player_start deck player in
+        print_string "> ";
+        if bust_checker_player updated_player = true then
+          {
+            hand = player.hand;
+            hand_val = player.hand_val;
+            chips = player.chips;
+            bet = player.bet;
+            win_round = false;
+            is_blackjack = player.is_blackjack;
+          }
+        else parse_input (remove deck) updated_player dealer
+        (* if bust_checker_player player = false then player else
+           parse_input (remove deck) updated_player dealer *) )
+  | "stay" ->
+      print_endline
+        ( "\nYour total value is "
+        ^ string_of_int player.hand_val
+        ^ ". \n" );
+      (* if bust_checker_player player = false then player else { hand =
+         player.hand; hand_val = player.hand_val; chips = player.chips;
+         bet = player.bet; win_round = true; } *)
+      print_endline "\nThe dealer's second card is. \n";
+      let dealer = dealer_start deck dealer in
+      card deck;
+      print_endline
+        ( "\nThe dealer's total is \n"
+        ^ string_of_int dealer.hand_val
+        ^ "." );
+
+      (*Check if there is a non-brute force way if dealer.hand_val >
+        player.hand_val then player.win_round = false else
+        player.win_round = true*)
+      if dealer.hand_val > player.hand_val then
+        let player =
+          {
+            hand = player.hand;
+            hand_val = player.hand_val;
+            chips = player.chips;
+            bet = player.bet;
+            win_round = false;
+            is_blackjack = player.is_blackjack;
+          }
+        in
+        player
+        (*Add a case where it is equal win_round: bool -> int. -1 if
+          lose. 0 if tie. 1 if win *)
+      else
+        {
+          hand = player.hand;
+          hand_val = player.hand_val;
+          chips = player.chips;
+          bet = player.bet;
+          win_round = true;
+          is_blackjack = player.is_blackjack;
+        }
+  | "empty" ->
+      print_endline "\nEmpty input, please try again. \n";
+      print_string "> ";
+      parse_input deck player dealer
+  | _ ->
+      print_endline "\nInvalid input, please try again. \n";
+      print_string "> ";
+      parse_input deck player dealer
+
 let start_round (deck : deck) (player : player) (dealer : dealer) =
   print_card (draw deck);
   let dealer = dealer_start deck dealer in
@@ -103,9 +149,17 @@ let start_round (deck : deck) (player : player) (dealer : dealer) =
   print_endline "Your second card is: ";
   print_card (draw updated_deck2);
   let player_2 = player_start updated_deck2 player_1 in
-  print_endline h_or_s;
-  print_string "> ";
-  let updated_deck3 = remove updated_deck2 in
-  parse_input updated_deck3 (player_2 : player) (dealer : dealer)
-
-(*ToDo - Implement Blackjack check at line 108*)
+  if black_jack_checker player_2 = true then
+    {
+      hand = player_2.hand;
+      hand_val = player_2.hand_val;
+      chips = player_2.chips;
+      bet = player_2.bet;
+      win_round = player_2.win_round;
+      is_blackjack = true;
+    }
+  else (
+    print_endline h_or_s;
+    print_string "> ";
+    let updated_deck3 = remove updated_deck2 in
+    parse_input updated_deck3 (player_2 : player) (dealer : dealer) )

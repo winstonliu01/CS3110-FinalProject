@@ -7,6 +7,7 @@ type player = {
   chips : int;
   bet : int;
   win_round : bool;
+  is_blackjack : bool;
 }
 
 (*type representing a dealer *)
@@ -36,7 +37,7 @@ val dealer_init : dealer
 val bust_checker_player : player -> bool
 
 (*[bust_checker_dealer] is if the dealer's hand value is over 21*)
-val bust_checker_player : player -> bool
+val bust_checker_dealer : dealer -> bool
 
 (*[reset_player] is the state of the player after they bust or the round
   is over. Hand and hand value are cleared*)
