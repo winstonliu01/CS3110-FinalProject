@@ -43,30 +43,33 @@ let rec parse_input deck (player : player) (dealer : dealer) =
         card new_deck;
         let updated_player = player_start new_deck player in
         print_string "> ";
-        if bust_checker_player player = false then player
-        else parse_input new_deck updated_player dealer )
+        parse_input new_deck updated_player dealer
+        (* if bust_checker_player player = false then player else
+           parse_input new_deck updated_player dealer*) )
       else (
         (*Draw a card and extract point value let card_drawn = draw_deck
           deck in*)
         card deck;
         let updated_player = player_start deck player in
         print_string "> ";
-        if bust_checker_player player = false then player
-        else parse_input (remove deck) updated_player dealer )
+        parse_input (remove deck) updated_player dealer
+        (* if bust_checker_player player = false then player else
+           parse_input (remove deck) updated_player dealer *) )
   | "stay" ->
       print_endline
         ( "\nYour total value is "
         ^ string_of_int player.hand_val
         ^ ". \n" );
-      if bust_checker_player player = false then player
-      else
-        {
-          hand = player.hand;
-          hand_val = player.hand_val;
-          chips = player.chips;
-          bet = player.bet;
-          win_round = true;
-        }
+      (* if bust_checker_player player = false then player else { hand =
+         player.hand; hand_val = player.hand_val; chips = player.chips;
+         bet = player.bet; win_round = true; } *)
+      {
+        hand = player.hand;
+        hand_val = player.hand_val;
+        chips = player.chips;
+        bet = player.bet;
+        win_round = true;
+      }
   | "empty" ->
       print_endline "\nEmpty input, please try again. \n";
       print_string "> ";
@@ -104,3 +107,5 @@ let start_round (deck : deck) (player : player) (dealer : dealer) =
   print_string "> ";
   let updated_deck3 = remove updated_deck2 in
   parse_input updated_deck3 (player_2 : player) (dealer : dealer)
+
+(*ToDo - Implement Blackjack check at line 108*)

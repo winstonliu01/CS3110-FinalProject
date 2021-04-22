@@ -102,6 +102,12 @@ let command_tests =
     check_1_11_test "malformed string" "22" "invalid input";
   ]
 
+(******* Player Testing *******)
+
+let player_tests = []
+
+(******* Round and Main Testing - Need to play the game to see*******)
+
 let suite =
   "test suite for blackjack"
   >::: List.flatten [ deck_tests; command_tests ]

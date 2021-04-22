@@ -44,6 +44,19 @@ let rec ace_value temp =
       print_string "> ";
       ace_value 0
 
+let black_jack_checker (player : player) =
+  match player.hand with
+  | [ h; t ] ->
+      if h.rank = "A" then
+        if t.rank = "10" || t.rank = "J" || t.rank = "Q" || t.rank = "K"
+        then true
+        else false
+      else if
+        h.rank = "10" || h.rank = "J" || h.rank = "Q" || h.rank = "K"
+      then if t.rank = "A" then true else false
+      else false
+  | _ -> false
+
 (*If Ace is 11 and bust, we set it to one which could bust as well. But
   we take care of that later. Otherwise if it doesn't we let the user
   decide.*)

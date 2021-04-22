@@ -23,6 +23,9 @@ val point_add_player : int -> card -> player -> player
   applied to the total - and updates the dealer state*)
 val point_add_dealer : int -> card -> dealer -> dealer
 
+(*[black_jack_checker] checks whether the player has a blackjack*)
+val black_jack_checker : player -> bool
+
 (*[player_init] is the state of the player when the game begins*)
 val player_init : player
 
