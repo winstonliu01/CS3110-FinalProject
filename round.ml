@@ -34,27 +34,39 @@ let rec parse_input deck (player : player) (dealer : dealer) =
   let line = read_line () in
   match Command.check_hit_stay line with
   | "hit" ->
-      (*Empty Deck: Create a newly shuffled deck Draw a card and extract
-        the point value Then parse for a hit or stay command *)
-      if empty deck then (
+      if
+        (*Empty Deck: Create a newly shuffled deck Draw a card and
+          extract the point value Then parse for a hit or stay command *)
+        empty deck
+      then (
         let new_deck = shuffle create in
         card new_deck;
         let updated_player = player_start new_deck player in
         print_string "> ";
-        parse_input new_deck updated_player dealer )
+        if bust_checker_player player = false then player
+        else parse_input new_deck updated_player dealer )
       else (
         (*Draw a card and extract point value let card_drawn = draw_deck
           deck in*)
         card deck;
         let updated_player = player_start deck player in
         print_string "> ";
-        parse_input (remove deck) updated_player dealer )
+        if bust_checker_player player = false then player
+        else parse_input (remove deck) updated_player dealer )
   | "stay" ->
       print_endline
         ( "\nYour total value is "
         ^ string_of_int player.hand_val
         ^ ". \n" );
-      player
+      if bust_checker_player player = false then player
+      else
+        {
+          hand = player.hand;
+          hand_val = player.hand_val;
+          chips = player.chips;
+          bet = player.bet;
+          win_round = true;
+        }
   | "empty" ->
       print_endline "\nEmpty input, please try again. \n";
       print_string "> ";

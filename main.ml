@@ -26,11 +26,15 @@ let rec yes_no (player : player) =
       print_string "> ";
       yes_no player
 
-let continue_playing (player : player) (dealer : dealer) =
+let rec continue_playing (player : player) (dealer : dealer) =
   print_endline "Would you like to play another round?";
   print_string "> ";
   let response = yes_no player in
-  if response = "yes" then start_new_round init_deck player dealer_init
+  if response = "yes" then
+    let new_player =
+      start_new_round (shuffle init_deck) player dealer_init
+    in
+    continue_playing (reset_player new_player) dealer_init
   else player
 
 (** [main ()] starts blackjack. *)
@@ -40,9 +44,14 @@ let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
   print_endline dealer_card1_string;
   let player = start_round init_deck player_init dealer_init in
+  (* if player.win_round = false then print_endline "You Busted" else
+     print_endline "You Won the Round"; *)
   let player_cont =
     continue_playing (reset_player player) dealer_init
   in
+
+  (* if player_cont.win_round = false then print_endline "You Busted"
+     else print_endline "You Won the Round";*)
   print_endline
     ( "Goodbye, you leave the game with "
     ^ string_of_int player_cont.chips
