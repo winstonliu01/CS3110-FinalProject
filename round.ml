@@ -2,8 +2,6 @@ open Text
 open Deck
 open Player
 
-(*ToDo - parse_input Add a case where the message tells you it is empty *)
-
 let init_deck = Deck.shuffle create
 
 let card deck =
@@ -63,12 +61,10 @@ let rec parse_input deck (player : player) (dealer : dealer) =
             hand_val = player.hand_val;
             chips = player.chips;
             bet = player.bet;
-            win_round = false;
+            win_round = -2;
             is_blackjack = player.is_blackjack;
           }
-        else parse_input new_deck updated_player dealer
-        (* if bust_checker_player player = false then player else
-           parse_input new_deck updated_player dealer*) )
+        else parse_input new_deck updated_player dealer )
       else (
         (*Draw a card and extract point value let card_drawn = draw_deck
           deck in*)
@@ -81,20 +77,15 @@ let rec parse_input deck (player : player) (dealer : dealer) =
             hand_val = player.hand_val;
             chips = player.chips;
             bet = player.bet;
-            win_round = false;
+            win_round = -2;
             is_blackjack = player.is_blackjack;
           }
-        else parse_input (remove deck) updated_player dealer
-        (* if bust_checker_player player = false then player else
-           parse_input (remove deck) updated_player dealer *) )
+        else parse_input (remove deck) updated_player dealer )
   | "stay" ->
       print_endline
         ( "\nYour total value is "
         ^ string_of_int player.hand_val
         ^ ". \n" );
-      (* if bust_checker_player player = false then player else { hand =
-         player.hand; hand_val = player.hand_val; chips = player.chips;
-         bet = player.bet; win_round = true; } *)
       print_endline "\nThe dealer's second card is. \n";
       let dealer = dealer_start deck dealer in
       card deck;
@@ -113,20 +104,27 @@ let rec parse_input deck (player : player) (dealer : dealer) =
             hand_val = player.hand_val;
             chips = player.chips;
             bet = player.bet;
-            win_round = false;
+            win_round = -1;
             is_blackjack = player.is_blackjack;
           }
         in
         player
-        (*Add a case where it is equal win_round: bool -> int. -1 if
-          lose. 0 if tie. 1 if win *)
+      else if dealer.hand_val = player.hand_val then
+        {
+          hand = player.hand;
+          hand_val = player.hand_val;
+          chips = player.chips;
+          bet = player.bet;
+          win_round = 0;
+          is_blackjack = player.is_blackjack;
+        }
       else
         {
           hand = player.hand;
           hand_val = player.hand_val;
           chips = player.chips;
           bet = player.bet;
-          win_round = true;
+          win_round = 1;
           is_blackjack = player.is_blackjack;
         }
   | "empty" ->
@@ -139,6 +137,7 @@ let rec parse_input deck (player : player) (dealer : dealer) =
       parse_input deck player dealer
 
 let start_round (deck : deck) (player : player) (dealer : dealer) =
+  print_endline dealer_card1_string;
   print_card (draw deck);
   let dealer = dealer_start deck dealer in
   let updated_deck = remove deck in
@@ -155,7 +154,7 @@ let start_round (deck : deck) (player : player) (dealer : dealer) =
       hand_val = player_2.hand_val;
       chips = player_2.chips;
       bet = player_2.bet;
-      win_round = player_2.win_round;
+      win_round = 1;
       is_blackjack = true;
     }
   else (

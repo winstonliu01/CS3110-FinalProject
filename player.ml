@@ -1,12 +1,13 @@
 open Deck
 open Command
+open Text
 
 type player = {
   hand : card list;
   hand_val : int;
   chips : int;
   bet : int;
-  win_round : bool;
+  win_round : int;
   is_blackjack : bool;
 }
 
@@ -21,7 +22,7 @@ let player_init =
     hand_val = 0;
     chips = 100;
     bet = 0;
-    win_round = false;
+    win_round = 0;
     is_blackjack = false;
   }
 
@@ -33,7 +34,7 @@ let reset_player player =
     hand_val = 0;
     chips = player.chips;
     bet = 0;
-    win_round = false;
+    win_round = 0;
     is_blackjack = false;
   }
 

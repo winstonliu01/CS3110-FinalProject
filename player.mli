@@ -1,12 +1,13 @@
 open Deck
 
-(*type representing a player *)
+(*type representing a player. win_round is -2 if they bust. -1 if lose.
+  0 if draw. 1 if win. *)
 type player = {
   hand : card list;
   hand_val : int;
   chips : int;
   bet : int;
-  win_round : bool;
+  win_round : int;
   is_blackjack : bool;
 }
 

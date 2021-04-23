@@ -9,7 +9,7 @@ open Round
   rounds.*)
 
 let start_new_round deck player dealer =
-  ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
+  ANSITerminal.print_string [ ANSITerminal.red ] new_round_string;
   start_round deck player dealer
 
 let rec yes_no (player : player) =
@@ -32,14 +32,15 @@ let rec continue_playing (player : player) (dealer : dealer) =
   let response = yes_no player in
   if response = "yes" then (
     let new_player =
-      print_endline dealer_card1_string;
       start_new_round (shuffle init_deck) player dealer_init
     in
     if new_player.is_blackjack = true then
       print_endline "You got Blackjack"
     else ();
-    if new_player.win_round = true then
-      print_endline "You won the round"
+    if new_player.win_round = 1 then print_endline "You won the round"
+    else if new_player.win_round = 0 then
+      print_endline "The round is a draw"
+    else if new_player.win_round = -2 then print_endline "You busted"
     else print_endline "You lost the round";
     continue_playing (reset_player new_player) dealer_init )
   else player
@@ -49,11 +50,13 @@ let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] welcome_string;
   (*Printing starting text- dealer and player hands printed*)
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
-  print_endline dealer_card1_string;
+
   let player = start_round init_deck player_init dealer_init in
   if player.is_blackjack = true then print_endline "You got Blackjack"
   else ();
-  if player.win_round = true then print_endline "You won the round"
+  if player.win_round = 1 then print_endline "You won the round"
+  else if player.win_round = 0 then print_endline "The round is a draw"
+  else if player.win_round = -2 then print_endline "You busted"
   else print_endline "You lost the round";
 
   (* if player.win_round = false then print_endline "You Busted" else
