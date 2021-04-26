@@ -22,7 +22,7 @@ let rec yes_no (player : player) =
       print_string "> ";
       yes_no player
   | _ ->
-      print_endline "\n Invalid input, please try again. \n";
+      print_endline "\nInvalid input, please try again. \n";
       print_string "> ";
       yes_no player
 
@@ -73,7 +73,7 @@ let main () =
   (* if player_cont.win_round = false then print_endline "You Busted"
      else print_endline "You Won the Round";*)
   print_endline
-    ( "\n Goodbye, you leave the game with "
+    ( "\nGoodbye, you leave the game with "
     ^ string_of_int player_cont.chips
     ^ " chips. \n" )
 
