@@ -91,7 +91,8 @@ let rec parse_input deck (player : player) (dealer : dealer) =
   | "stay" ->
       print_endline
         ("\nYour total value is " ^ string_of_int player.hand_val ^ ". ");
-      print_endline "\nThe dealer hidden cards are:\n";
+      print_endline
+        "\nThe dealer's hidden card and remaining cards are:\n";
       let dealer = dealer_cont deck dealer in
       if dealer.hand_val > 21 then
         print_endline "\nThe dealer busted!\n"
