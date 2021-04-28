@@ -1,6 +1,7 @@
 open OUnit2
 open Deck
 open Command
+open Player
 
 (******* Deck Testing *******)
 
@@ -104,12 +105,115 @@ let command_tests =
 
 (******* Player Testing *******)
 
-let player_tests = []
+let point_add_player_test
+    (name : string)
+    (total : int)
+    (card : card)
+    (player : player)
+    (expected_output : player) : test =
+  name >:: fun _ ->
+  assert_equal expected_output (point_add_player total card player)
+
+let black_jack_checker_test
+    (name : string)
+    (player : player)
+    (expected_output : bool) : test =
+  name >:: fun _ ->
+  assert_equal expected_output (black_jack_checker player)
+
+let bust_checker_player_test
+    (name : string)
+    (player : player)
+    (expected_output : bool) : test =
+  name >:: fun _ ->
+  assert_equal expected_output (bust_checker_player player)
+
+let j = { suite = "♠"; rank = "J"; point = [ 10 ] }
+
+let a = { suite = "♠"; rank = "A"; point = [ 11 ] }
+
+let a1 = { suite = "♠"; rank = "A"; point = [ 11 ] }
+
+let num7 = { suite = "♠"; rank = "7"; point = [ 7 ] }
+
+let num4 = { suite = "♠"; rank = "4"; point = [ 4 ] }
+
+let player_j =
+  {
+    hand = [];
+    hand_val = 10;
+    chips = 100;
+    bet = 0;
+    win_round = 0;
+    is_blackjack = false;
+  }
+
+let player_j_a =
+  {
+    hand = [ j; a ];
+    hand_val = 21;
+    chips = 100;
+    bet = 0;
+    win_round = 0;
+    is_blackjack = true;
+  }
+
+let player_j_a_7 =
+  {
+    hand = [];
+    hand_val = 28;
+    chips = 100;
+    bet = 0;
+    win_round = -2;
+    is_blackjack = false;
+  }
+
+let player_7 =
+  {
+    hand = [];
+    hand_val = 7;
+    chips = 100;
+    bet = 0;
+    win_round = 0;
+    is_blackjack = false;
+  }
+
+let player_7_a1 =
+  {
+    hand = [];
+    hand_val = 8;
+    chips = 100;
+    bet = 0;
+    win_round = 0;
+    is_blackjack = false;
+  }
+
+let player_7_4 =
+  {
+    hand = [];
+    hand_val = 11;
+    chips = 100;
+    bet = 0;
+    win_round = 0;
+    is_blackjack = false;
+  }
+
+let player_tests =
+  [
+    point_add_player_test "One card added 0" 0 j player_init player_j;
+    point_add_player_test "One card added 7" 7 num4 player_7 player_7_4;
+    black_jack_checker_test "No Blackjack" player_init false;
+    black_jack_checker_test "No Blackjack" player_7_a1 false;
+    black_jack_checker_test "Blackjack" player_j_a true;
+    bust_checker_player_test "No Bust" player_j_a false;
+    bust_checker_player_test "No Bust" player_7_a1 false;
+    bust_checker_player_test "Busted" player_j_a_7 true;
+  ]
 
 (******* Round and Main Testing - Need to play the game to see*******)
 
 let suite =
   "test suite for blackjack"
-  >::: List.flatten [ deck_tests; command_tests ]
+  >::: List.flatten [ deck_tests; command_tests; player_tests ]
 
 let _ = run_test_tt_main suite

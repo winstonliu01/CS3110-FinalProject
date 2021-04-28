@@ -11,7 +11,7 @@ let start_round_string =
 
 let dealer_card1_string = "\nThe dealer's first card is: \n"
 
-let new_round_string = "\n A new round is starting, get ready!\n"
+let new_round_string = "\nA new round is starting, get ready!\n"
 
 let h_or_s = "Do you want to hit or stay?\n"
 
