@@ -139,12 +139,12 @@ let rec parse_input deck (player : player) (dealer : dealer) =
           is_blackjack = player.is_blackjack;
         }
   | "empty" ->
-      print_endline "\nEmpty input, please try again. \n";
-      print_string "> ";
+      print_endline "\nEmpty input, please try again.\n";
+      print_string "> \n";
       parse_input deck player dealer
   | _ ->
-      print_endline "\nInvalid input, please try again. \n";
-      print_string "> ";
+      print_endline "\nInvalid input, please try again.\n";
+      print_string "> \n";
       parse_input deck player dealer
 
 let start_round (deck : deck) (player : player) (dealer : dealer) =
