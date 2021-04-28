@@ -50,7 +50,7 @@ let rec ace_value temp =
       print_string "> ";
       ace_value 0
   | _ ->
-      print_string "\nInvalid input, please try again.\n\n";
+      print_string "\nInvalid input, please try again.\n";
       print_string "> ";
       ace_value 0
 
