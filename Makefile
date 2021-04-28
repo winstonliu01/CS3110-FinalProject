@@ -5,6 +5,7 @@ MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
+PKGS=unix,ounit2,str,qcheck
 
 default: build
 	OCAMLRUNPARAM=b utop
@@ -26,14 +27,14 @@ docs: docs-public docs-private
 
 docs-public: build
 	mkdir -p _doc.public
-	ocamlfind ocamldoc -I _build -package $(PKGS) \
-		-html -stars -d _doc.public $(MLIS)  
+	ocamlfind ocamldoc -I _build -package ANSITerminal \
+		-html -stars -d _doc.public $(MLIS)
 
 docs-private: build
 	mkdir -p _doc.private
-	ocamlfind ocamldoc -I _build -package $(PKGS) \
+	ocamlfind ocamldoc -I _build -package ANSITerminal \
 		-html -stars -d _doc.private \
-		-inv-merge-ml-mli -m A -hide-warnings $(MLIS) $(MLS)
+		-inv-merge-ml-mli -m A $(MLIS) $(MLS)
 clean:
 	ocamlbuild -clean
 	rm -rf _doc.public _doc.private blackjack.zip
