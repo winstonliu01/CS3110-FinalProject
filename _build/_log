@@ -1,0 +1,52 @@
+### Starting build.
+# Target: main.mli.depends, tags: { package(ANSITerminal), package(ounit2), extension:mli, file:main.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules main.mli > main.mli.depends # cached
+# Target: main.cmi, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:mli, file:main.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o main.cmi main.mli # cached
+# Target: main.ml.depends, tags: { package(ANSITerminal), package(ounit2), extension:ml, file:main.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules main.ml > main.ml.depends # cached
+# Target: command.mli.depends, tags: { package(ANSITerminal), package(ounit2), extension:mli, file:command.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules command.mli > command.mli.depends # cached
+# Target: command.cmi, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:mli, file:command.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o command.cmi command.mli # cached
+# Target: deck.mli.depends, tags: { package(ANSITerminal), package(ounit2), extension:mli, file:deck.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules deck.mli > deck.mli.depends # cached
+# Target: deck.cmi, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:mli, file:deck.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o deck.cmi deck.mli # cached
+# Target: player.mli.depends, tags: { package(ANSITerminal), package(ounit2), extension:mli, file:player.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules player.mli > player.mli.depends # cached
+# Target: player.cmi, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:mli, file:player.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o player.cmi player.mli # cached
+# Target: round.mli.depends, tags: { package(ANSITerminal), package(ounit2), extension:mli, file:round.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules round.mli > round.mli.depends # cached
+# Target: text.mli.depends, tags: { package(ANSITerminal), package(ounit2), extension:mli, file:text.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules text.mli > text.mli.depends # cached
+# Target: text.cmi, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:mli, file:text.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o text.cmi text.mli # cached
+# Target: round.cmi, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:mli, file:round.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o round.cmi round.mli # cached
+# Target: main.cmo, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:cmo, extension:ml, file:main.cmo, file:main.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o main.cmo main.ml # cached
+# Target: command.ml.depends, tags: { package(ANSITerminal), package(ounit2), extension:ml, file:command.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules command.ml > command.ml.depends # cached
+# Target: command.cmo, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:cmo, extension:ml, file:command.cmo, file:command.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o command.cmo command.ml # cached
+# Target: deck.ml.depends, tags: { package(ANSITerminal), package(ounit2), extension:ml, file:deck.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules deck.ml > deck.ml.depends # cached
+# Target: deck.cmo, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:cmo, extension:ml, file:deck.cmo, file:deck.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o deck.cmo deck.ml # cached
+# Target: player.ml.depends, tags: { package(ANSITerminal), package(ounit2), extension:ml, file:player.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules player.ml > player.ml.depends # cached
+# Target: player.cmo, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:cmo, extension:ml, file:player.cmo, file:player.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o player.cmo player.ml # cached
+# Target: round.ml.depends, tags: { package(ANSITerminal), package(ounit2), extension:ml, file:round.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules round.ml > round.ml.depends # cached
+# Target: round.cmo, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:cmo, extension:ml, file:round.cmo, file:round.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o round.cmo round.ml # cached
+# Target: text.ml.depends, tags: { package(ANSITerminal), package(ounit2), extension:ml, file:text.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package ANSITerminal -modules text.ml > text.ml.depends # cached
+# Target: text.cmo, tags: { package(ANSITerminal), package(ounit2), byte, compile, extension:cmo, extension:ml, file:text.cmo, file:text.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package ANSITerminal -o text.cmo text.ml # cached
+# Target: main.byte, tags: { package(ANSITerminal), package(ounit2), byte, dont_link_with, extension:byte, file:main.byte, link, ocaml, program, quiet, traverse }
+ocamlfind ocamlc -linkpkg -package ounit2 -package ANSITerminal command.cmo deck.cmo text.cmo player.cmo round.cmo main.cmo -o main.byte
+# Compilation successful.
