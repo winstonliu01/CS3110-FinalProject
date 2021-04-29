@@ -157,8 +157,11 @@ let start_round (deck : deck) (player : player) (dealer : dealer) =
   print_endline "\nYour second card is: \n";
   print_card (draw updated_deck2);
   let player_2 = player_start updated_deck2 player_1 in
-  if black_jack_checker player_2 = true then
+  if black_jack_checker player_2 = true then (
+    print_endline
+      "\nThe dealer's hidden card and remaining cards are:\n";
     let dealer_blackjack = dealer_cont (remove updated_deck2) dealer in
+
     if dealer_blackjack.hand_val = 21 then
       {
         hand = player_2.hand;
@@ -176,7 +179,7 @@ let start_round (deck : deck) (player : player) (dealer : dealer) =
         bet = player_2.bet;
         win_round = 1;
         is_blackjack = true;
-      }
+      } )
   else
     let updated_deck3 = remove updated_deck2 in
     parse_input updated_deck3 (player_2 : player) (dealer : dealer)
