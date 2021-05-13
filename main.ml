@@ -15,10 +15,11 @@ let rec yes_no (player : player) =
   | "no" -> "no"
   (*Fix not printing in this case*)
   | "empty" ->
+      print_endline "Reached empty printing - Main ";
       empty_print;
       yes_no player
   | _ ->
-      print_endline "Reached wildcard";
+      print_endline "Reached wildcard - Main";
       invalid_print;
       yes_no player
 

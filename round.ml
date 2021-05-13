@@ -56,63 +56,23 @@ let rec dealer_cont (deck : deck) (dealer : dealer) =
     dealer_cont (remove deck) dealer_updated )
   else dealer
 
-let bust_player (player : player) =
+let blackjack_player_state (player : player) (win : int) =
   {
     hand = player.hand;
     hand_val = player.hand_val;
     chips = player.chips;
     bet = player.bet;
-    win_round = -2;
-    is_blackjack = player.is_blackjack;
-  }
-
-let dealer_player_bj_tie (player : player) =
-  {
-    hand = player.hand;
-    hand_val = player.hand_val;
-    chips = player.chips;
-    bet = player.bet;
-    win_round = 0;
+    win_round = win;
     is_blackjack = true;
   }
 
-let player_bj_win (player : player) =
+let regular_player_state (player : player) (win : int) =
   {
     hand = player.hand;
     hand_val = player.hand_val;
     chips = player.chips;
     bet = player.bet;
-    win_round = 1;
-    is_blackjack = true;
-  }
-
-let player_lost (player : player) =
-  {
-    hand = player.hand;
-    hand_val = player.hand_val;
-    chips = player.chips;
-    bet = player.bet;
-    win_round = -1;
-    is_blackjack = player.is_blackjack;
-  }
-
-let player_dealer_tie (player : player) =
-  {
-    hand = player.hand;
-    hand_val = player.hand_val;
-    chips = player.chips;
-    bet = player.bet;
-    win_round = 0;
-    is_blackjack = player.is_blackjack;
-  }
-
-let player_win (player : player) =
-  {
-    hand = player.hand;
-    hand_val = player.hand_val;
-    chips = player.chips;
-    bet = player.bet;
-    win_round = 1;
+    win_round = win;
     is_blackjack = player.is_blackjack;
   }
 
@@ -121,12 +81,14 @@ let rec hit_player deck (player : player) (dealer : dealer) =
     let new_deck = shuffle create in
     card new_deck;
     let updated_player = player_start new_deck player in
-    if bust_checker_player updated_player = true then bust_player player
+    if bust_checker_player updated_player = true then
+      regular_player_state player (-2)
     else parse_input new_deck updated_player dealer )
   else (
     card deck;
     let updated_player = player_start deck player in
-    if bust_checker_player updated_player = true then bust_player player
+    if bust_checker_player updated_player = true then
+      regular_player_state player (-2)
     else parse_input (remove deck) updated_player dealer )
 
 and stay_player deck (player : player) (dealer : dealer) =
@@ -140,14 +102,15 @@ and stay_player deck (player : player) (dealer : dealer) =
     dealer.hand_val > player.hand_val
     && bust_checker_dealer dealer = false
   then
-    let player' = player_lost player in
+    let player' = regular_player_state player (-1) in
     player'
   else if dealer.hand_val = player.hand_val then
-    player_dealer_tie player
-  else player_win player
+    regular_player_state player 0
+  else regular_player_state player 1
 
 and parse_input deck (player : player) (dealer : dealer) =
   (*Not printing anything*)
+  print_endline "Reached hit or stay printing - Round ";
   h_or_s;
   let line = read_line () in
   match Command.check_hit_stay line with
@@ -155,9 +118,11 @@ and parse_input deck (player : player) (dealer : dealer) =
   | "stay" -> stay_player deck player dealer
   (*Not printing empty or invalid input*)
   | "empty" ->
+      print_endline "Reached empty printing - Round ";
       empty_print;
       parse_input deck player dealer
   | _ ->
+      print_endline "Reached invalid printing - Round ";
       invalid_print;
       parse_input deck player dealer
 
@@ -176,9 +141,9 @@ let start_round (deck : deck) (player : player) (dealer : dealer) =
   if black_jack_checker player_2 = true then (
     print_endline dealer_remaining_card;
     let dealer_blackjack = dealer_cont (remove updated_deck2) dealer in
-
-    if dealer_blackjack.hand_val = 21 then dealer_player_bj_tie player_2
-    else player_bj_win player_2 )
+    if dealer_blackjack.hand_val = 21 then
+      blackjack_player_state player_2 0
+    else blackjack_player_state player_2 1 )
   else
     let updated_deck3 = remove updated_deck2 in
     parse_input updated_deck3 (player_2 : player) (dealer : dealer)

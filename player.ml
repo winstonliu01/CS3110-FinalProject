@@ -46,9 +46,11 @@ let rec ace_value temp =
   | "1" -> 1
   | "11" -> 11
   | "empty" ->
+      print_endline "Reached empty printing - Player ";
       empty_print;
       ace_value 0
   | _ ->
+      print_endline "Reached invalid printing - Player ";
       invalid_print;
       ace_value 0
 
