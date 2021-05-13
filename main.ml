@@ -13,14 +13,11 @@ let rec yes_no (player : player) =
   match Command.check_yes_no y_n with
   | "yes" -> "yes"
   | "no" -> "no"
-  (*Fix not printing in this case*)
   | "empty" ->
-      print_endline "Reached empty printing - Main ";
-      empty_print;
+      Text.empty_print ();
       yes_no player
   | _ ->
-      print_endline "Reached wildcard - Main";
-      invalid_print;
+      Text.invalid_print ();
       yes_no player
 
 let rec continue_playing (player : player) (dealer : dealer) =

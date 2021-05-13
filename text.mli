@@ -22,10 +22,10 @@ val invalid_input : string
 val dealer_remaining_card : string
 
 (**[empty_print] outputs to the user they've inputted an empty input *)
-val empty_print : unit
+val empty_print : unit -> unit
 
 (**[invalid_print] outputs to the user they've inputted an invalid input *)
-val invalid_print : unit
+val invalid_print : unit -> unit
 
 (**[h_or_s] prompts the user if they want to hit or stay*)
-val h_or_s : unit
+val h_or_s : unit -> unit

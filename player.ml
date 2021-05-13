@@ -46,12 +46,10 @@ let rec ace_value temp =
   | "1" -> 1
   | "11" -> 11
   | "empty" ->
-      print_endline "Reached empty printing - Player ";
-      empty_print;
+      Text.empty_print ();
       ace_value 0
   | _ ->
-      print_endline "Reached invalid printing - Player ";
-      invalid_print;
+      Text.invalid_print ();
       ace_value 0
 
 (*Possibly check it some other way?*)
@@ -79,28 +77,24 @@ let bust_checker_player (player : player) = player.hand_val > 21
 
 let bust_checker_dealer (dealer : dealer) = dealer.hand_val > 21
 
+let player_hand (player : player) (updated_total : int) =
+  {
+    hand = player.hand;
+    hand_val = updated_total;
+    chips = player.chips;
+    bet = player.bet;
+    win_round = player.win_round;
+    is_blackjack = player.is_blackjack;
+  }
+
 let point_add_player total card (player : player) =
   match card.rank with
   | "A" ->
       let updated_total = total + ace_checker total in
-      {
-        hand = player.hand;
-        hand_val = updated_total;
-        chips = player.chips;
-        bet = player.bet;
-        win_round = player.win_round;
-        is_blackjack = player.is_blackjack;
-      }
+      player_hand player updated_total
   | _ ->
       let updated_total = total + List.hd card.point in
-      {
-        hand = player.hand;
-        hand_val = updated_total;
-        chips = player.chips;
-        bet = player.bet;
-        win_round = player.win_round;
-        is_blackjack = player.is_blackjack;
-      }
+      player_hand player updated_total
 
 let point_add_dealer total card (dealer : dealer) =
   match card.rank with

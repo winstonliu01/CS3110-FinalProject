@@ -43,11 +43,12 @@ let dealer_start (deck : deck) (dealer : dealer) =
   dealer
 
 let player_total (player : player) =
-  print_endline
+  ANSITerminal.print_string [ ANSITerminal.red ]
     ("\nYour total value is " ^ string_of_int player.hand_val ^ ". ")
 
 let dealer_total (dealer : dealer) =
-  "\nThe dealer's total is " ^ string_of_int dealer.hand_val ^ ". \n"
+  ANSITerminal.print_string [ ANSITerminal.red ]
+    ("\nThe dealer's total is " ^ string_of_int dealer.hand_val ^ ". \n")
 
 let rec dealer_cont (deck : deck) (dealer : dealer) =
   if dealer.hand_val < 17 then (
@@ -96,7 +97,7 @@ and stay_player deck (player : player) (dealer : dealer) =
   print_endline dealer_remaining_card;
   let dealer = dealer_cont deck dealer in
   if dealer.hand_val > 21 then print_endline "\nThe dealer busted!\n"
-  else print_endline (dealer_total dealer);
+  else dealer_total dealer;
 
   if
     dealer.hand_val > player.hand_val
@@ -109,21 +110,16 @@ and stay_player deck (player : player) (dealer : dealer) =
   else regular_player_state player 1
 
 and parse_input deck (player : player) (dealer : dealer) =
-  (*Not printing anything*)
-  print_endline "Reached hit or stay printing - Round ";
-  h_or_s;
+  Text.h_or_s ();
   let line = read_line () in
   match Command.check_hit_stay line with
   | "hit" -> hit_player deck player dealer
   | "stay" -> stay_player deck player dealer
-  (*Not printing empty or invalid input*)
   | "empty" ->
-      print_endline "Reached empty printing - Round ";
-      empty_print;
+      Text.empty_print ();
       parse_input deck player dealer
   | _ ->
-      print_endline "Reached invalid printing - Round ";
-      invalid_print;
+      Text.invalid_print ();
       parse_input deck player dealer
 
 let start_round (deck : deck) (player : player) (dealer : dealer) =
