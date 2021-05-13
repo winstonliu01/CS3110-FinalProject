@@ -1,11 +1,15 @@
+(** Parses command to check for valid input*)
+
 type command = string
 
-(** [check_1_11] determines whether an ace should be worth 1 or 11
+(** [check_1_11] determines whether the user wants the ace to be 1 or 11
     points*)
 val check_1_11 : string -> string
 
-(** [check_hit_stay] determines what to do based on the command*)
+(** [check_hit_stay] determines whether to draw another card or
+    calculate the user's hand value*)
 val check_hit_stay : string -> string
 
-(** [check_yes_no] determines whether to start a new round*)
+(** [check_yes_no] determines whether the user wants to start a new
+    round*)
 val check_yes_no : string -> string

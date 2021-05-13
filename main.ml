@@ -1,12 +1,8 @@
-open Deck
 open Text
+open Deck
 open Command
 open Player
 open Round
-
-(*ToDo - Fix the deck in continuation. It is the same deck, we want a
-  new deck each iteration. Make it so that you can play more than 2
-  rounds.*)
 
 let start_new_round deck player dealer =
   ANSITerminal.print_string [ ANSITerminal.red ] new_round_string;
@@ -17,13 +13,13 @@ let rec yes_no (player : player) =
   match Command.check_yes_no y_n with
   | "yes" -> "yes"
   | "no" -> "no"
+  (*Fix not printing in this case*)
   | "empty" ->
-      print_endline "\nEmpty input, please try again. \n";
-      print_string "> ";
+      empty_print;
       yes_no player
   | _ ->
-      print_endline "\nInvalid input, please try again. \n";
-      print_string "> ";
+      print_endline "Reached wildcard";
+      invalid_print;
       yes_no player
 
 let rec continue_playing (player : player) (dealer : dealer) =
@@ -50,7 +46,6 @@ let rec continue_playing (player : player) (dealer : dealer) =
 (** [main ()] starts blackjack. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] welcome_string;
-  (*Printing starting text- dealer and player hands printed*)
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
 
   let player = start_round init_deck player_init dealer_init in
@@ -64,14 +59,9 @@ let main () =
     print_endline "Sorry, you busted! \n"
   else print_endline "You lost the round. \n";
 
-  (* if player.win_round = false then print_endline "You Busted" else
-     print_endline "You Won the Round"; *)
   let player_cont =
     continue_playing (reset_player player) dealer_init
   in
-
-  (* if player_cont.win_round = false then print_endline "You Busted"
-     else print_endline "You Won the Round";*)
   print_endline
     ( "\nGoodbye, you leave the game with "
     ^ string_of_int player_cont.chips
