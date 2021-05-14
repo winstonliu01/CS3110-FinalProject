@@ -29,3 +29,11 @@ let invalid_print () =
 let h_or_s () =
   print_endline "\n\nDo you want to hit or stay?\n";
   print_string "> "
+
+let place_bets () =
+  print_endline "\n\nPlease place your bet\n";
+  print_string "> "
+
+let all_in () =
+  print_endline "\n\nAre you sure you want to go all in?\n";
+  print_string "> "

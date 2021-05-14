@@ -30,6 +30,12 @@ let valid_length_hit_stay str =
     | "stay" -> "stay"
     | _ -> "invalid input"
 
+let valid_bet str =
+  try string_of_int (int_of_string str)
+  with Failure _ -> "invalid input"
+
+let empty_int str = if str = "" then "empty" else valid_bet str
+
 let empty str funct = if str = "" then "empty" else funct str
 
 let deblank str = StringLabels.trim str
@@ -45,3 +51,7 @@ let check_yes_no str =
 let check_hit_stay str =
   let trim_str = deblank str in
   empty trim_str valid_length_hit_stay
+
+let check_bet str =
+  let trim_str = deblank str in
+  empty_int trim_str

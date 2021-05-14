@@ -13,3 +13,6 @@ val check_hit_stay : string -> string
 (** [check_yes_no] determines whether the user wants to start a new
     round*)
 val check_yes_no : string -> string
+
+(** [check_bet] determines whether the user entered a valid bet *)
+val check_bet : string -> string

@@ -29,3 +29,9 @@ val invalid_print : unit -> unit
 
 (**[h_or_s] prompts the user if they want to hit or stay*)
 val h_or_s : unit -> unit
+
+(**[place_bets] prompts the user to place their bet*)
+val place_bets : unit -> unit
+
+(**[all_in] asks the user if they want to go all in*)
+val all_in : unit -> unit
