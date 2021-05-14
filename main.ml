@@ -4,11 +4,7 @@ open Command
 open Player
 open Round
 
-(*ToDo: Correct betting amount *)
-
-let start_new_round deck player dealer =
-  ANSITerminal.print_string [ ANSITerminal.red ] new_round_string;
-  start_round deck player dealer
+let start_new_round deck player dealer = start_round deck player dealer
 
 let rec yes_no (player : player) =
   let y_n = read_line () in
@@ -26,13 +22,44 @@ let bet_player (player : player) (bet_entered : int) =
   {
     hand = player.hand;
     hand_val = player.hand_val;
-    chips = 100;
+    chips = player.chips;
     bet = bet_entered;
     win_round = player.win_round;
     is_blackjack = player.is_blackjack;
   }
 
+let player_updated (player : player) chips_won =
+  {
+    hand = player.hand;
+    hand_val = player.hand_val;
+    chips = player.chips + chips_won;
+    bet = player.bet;
+    win_round = player.win_round;
+    is_blackjack = player.is_blackjack;
+  }
+
+let update_player (player : player) =
+  if player.is_blackjack = true then
+    let chips_won = player.bet * 2 in
+    player_updated player chips_won
+  else if player.win_round = 0 then
+    let chips_won = player.bet / 2 in
+    player_updated player chips_won
+  else if player.win_round = 1 then
+    let chips_won = player.bet in
+    player_updated player chips_won
+  else
+    let chips_won = player.bet * -1 in
+    player_updated player chips_won
+
+let blackjack_print (player : player) =
+  if player.is_blackjack = true then
+    print_endline "You got Blackjack! \n"
+  else ()
+
 let rec enter_bet (player : player) =
+  print_endline
+    ("You now have " ^ string_of_int player.chips ^ " chips.");
   Text.place_bets ();
   let bet_placed = read_line () in
   match Command.check_bet bet_placed with
@@ -51,18 +78,17 @@ let rec enter_bet (player : player) =
         else enter_bet player )
       else bet_player player bet_entered
 
-(*ToDo: Incorporate betting for multiple players *)
 let rec continue_playing (player : player) (dealer : dealer) =
   print_endline "Would you like to play another round? \n";
   print_string "> ";
   let response = yes_no player in
-  if response = "yes" then (
+  if response = "yes" && player.chips > 0 then (
+    ANSITerminal.print_string [ ANSITerminal.red ] new_round_string;
+    let bet_player = enter_bet player in
     let new_player =
-      start_new_round (shuffle init_deck) player dealer_init
+      start_new_round (shuffle init_deck) bet_player dealer_init
     in
-    if new_player.is_blackjack = true then
-      print_endline "You got Blackjack! \n"
-    else ();
+    blackjack_print new_player;
     if new_player.win_round = 1 then
       print_endline "You won the round! \n"
     else if new_player.win_round = 0 then
@@ -70,32 +96,9 @@ let rec continue_playing (player : player) (dealer : dealer) =
     else if new_player.win_round = -2 then
       print_endline "Sorry, you busted! \n"
     else print_endline "You lost the round. \n";
-    continue_playing (reset_player new_player) dealer_init )
+    let finished_multiple_game = update_player new_player in
+    continue_playing (reset_player finished_multiple_game) dealer_init )
   else player
-
-let player_updated (player : player) chips_won =
-  {
-    hand = player.hand;
-    hand_val = player.hand_val;
-    chips = chips_won;
-    bet = player.bet;
-    win_round = player.win_round;
-    is_blackjack = player.is_blackjack;
-  }
-
-let update_player (player : player) =
-  if player.is_blackjack = true then
-    let chips_won = player.bet * 2 in
-    player_updated player chips_won
-  else if player.win_round = 0 then
-    let chips_won = player.bet / 2 in
-    player_updated player chips_won
-  else if player.win_round = 1 then
-    let chips_won = player.bet / 2 in
-    player_updated player chips_won
-  else
-    let chips_won = player.bet * -1 in
-    player_updated player chips_won
 
 (** [main ()] starts blackjack. *)
 let main () =
@@ -104,9 +107,7 @@ let main () =
 
   let start_player = enter_bet player_init in
   let player = start_round init_deck start_player dealer_init in
-  if player.is_blackjack = true then
-    print_endline "You got Blackjack! \n"
-  else ();
+  blackjack_print player;
   if player.win_round = 1 then print_endline "You won the round! \n"
   else if player.win_round = 0 then
     print_endline "The round is a draw. \n"
@@ -118,10 +119,14 @@ let main () =
   let player_cont =
     continue_playing (reset_player finished_game) dealer_init
   in
-  print_endline
-    ( "\nGoodbye, you leave the game with "
-    ^ string_of_int player_cont.chips
-    ^ " chips. \n" )
+
+  if player_cont.chips <= 0 then
+    print_endline "\nSorry, you went bankrupt!\n"
+  else
+    print_endline
+      ( "\nGoodbye, you leave the game with "
+      ^ string_of_int player_cont.chips
+      ^ " chips. \n" )
 
 (* Execute the game engine. *)
 let () = main ()
