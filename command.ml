@@ -10,6 +10,17 @@ let valid_length_1_11 str =
     | "11" -> "11"
     | _ -> "invalid input"
 
+let valid_length_1_2_3 str =
+  let str_list = StringLabels.split_on_char ' ' str in
+  if List.length str_list <> 1 then "invalid input"
+  else
+    let format_str = StringLabels.lowercase_ascii str in
+    match format_str with
+    | "1" -> "1"
+    | "2" -> "2"
+    | "3" -> "3"
+    | _ -> "invalid input"
+
 let valid_length_yes_no str =
   let str_list = StringLabels.split_on_char ' ' str in
   if List.length str_list <> 1 then "invalid input"
@@ -55,3 +66,7 @@ let check_hit_stay str =
 let check_bet str =
   let trim_str = deblank str in
   empty_int trim_str
+
+let check_side_bet str =
+  let trim_str = deblank str in
+  empty trim_str valid_length_1_2_3

@@ -11,6 +11,7 @@ type player = {
   bet : int;
   win_round : int;
   is_blackjack : bool;
+  side_bet : int;
 }
 
 (**type representing a dealer *)

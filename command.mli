@@ -16,3 +16,7 @@ val check_yes_no : string -> string
 
 (** [check_bet] determines whether the user entered a valid bet *)
 val check_bet : string -> string
+
+(** [check_side_bet] determines whether the user entered a valid side
+    bet *)
+val check_side_bet : string -> string

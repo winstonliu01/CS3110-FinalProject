@@ -9,6 +9,7 @@ type player = {
   bet : int;
   win_round : int;
   is_blackjack : bool;
+  side_bet : int;
 }
 
 type dealer = {
@@ -24,6 +25,7 @@ let player_init =
     bet = 0;
     win_round = 0;
     is_blackjack = false;
+    side_bet = 0;
   }
 
 let dealer_init = { hand = []; hand_val = 0 }
@@ -36,6 +38,7 @@ let reset_player player =
     bet = 0;
     win_round = 0;
     is_blackjack = false;
+    side_bet = 0;
   }
 
 let rec ace_value temp =
@@ -85,6 +88,7 @@ let player_hand (player : player) (updated_total : int) =
     bet = player.bet;
     win_round = player.win_round;
     is_blackjack = player.is_blackjack;
+    side_bet = player.side_bet;
   }
 
 let point_add_player total card (player : player) =

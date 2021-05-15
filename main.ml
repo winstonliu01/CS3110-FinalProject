@@ -6,6 +6,26 @@ open Round
 
 let start_new_round deck player dealer = start_round deck player dealer
 
+(*Code was referenced from
+  http://www.cs.cornell.edu/courses/cs3110/2010fa/lectures/lec02.html*)
+let isPrime (n : int) : bool =
+  let rec noDivisors (m : int) : bool =
+    m * m > n || (n mod m != 0 && noDivisors (m + 1))
+  in
+  n >= 2 && noDivisors 2
+
+let rec heart_suite (hand : card list) =
+  match hand with
+  | [] -> true
+  | h :: t -> if h.suite <> "♥" then false else heart_suite t
+
+let check_side_bet (player : player) =
+  match player.side_bet with
+  | 1 -> if player.hand_val mod 2 <> 0 then 5 else -5
+  | 2 -> if isPrime player.hand_val then 10 else -10
+  | 3 -> if heart_suite player.hand then 50 else -50
+  | _ -> 0
+
 let rec yes_no (player : player) =
   let y_n = read_line () in
   match Command.check_yes_no y_n with
@@ -26,6 +46,7 @@ let bet_player (player : player) (bet_entered : int) =
     bet = bet_entered;
     win_round = player.win_round;
     is_blackjack = player.is_blackjack;
+    side_bet = player.side_bet;
   }
 
 let player_updated (player : player) chips_won =
@@ -36,21 +57,24 @@ let player_updated (player : player) chips_won =
     bet = player.bet;
     win_round = player.win_round;
     is_blackjack = player.is_blackjack;
+    side_bet = player.side_bet;
   }
 
 let update_player (player : player) =
+  let side_bet_chips = check_side_bet player in
+
   if player.is_blackjack = true then
     let chips_won = player.bet * 2 in
-    player_updated player chips_won
+    player_updated player (chips_won + side_bet_chips)
   else if player.win_round = 0 then
     let chips_won = player.bet / 2 in
-    player_updated player chips_won
+    player_updated player (chips_won + side_bet_chips)
   else if player.win_round = 1 then
     let chips_won = player.bet in
-    player_updated player chips_won
+    player_updated player (chips_won + side_bet_chips)
   else
     let chips_won = player.bet * -1 in
-    player_updated player chips_won
+    player_updated player (chips_won + side_bet_chips)
 
 let blackjack_print (player : player) =
   if player.is_blackjack = true then
