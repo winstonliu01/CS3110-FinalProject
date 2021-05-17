@@ -4,7 +4,8 @@ open Command
 open Player
 open Round
 
-let start_new_round deck player dealer = start_round deck player dealer
+let start_new_round deck player dealer =
+  start_round deck player dealer dealer_init
 
 (*Code was referenced from
   http://www.cs.cornell.edu/courses/cs3110/2010fa/lectures/lec02.html*)
@@ -72,6 +73,12 @@ let update_player (player : player) =
   else if player.win_round = 1 then
     let chips_won = player.bet in
     player_updated player (chips_won + side_bet_chips)
+  else if player.win_round = -3 then
+    let chips_won = player.bet / 4 in
+    player_updated player (chips_won + side_bet_chips)
+  else if player.win_round = 2 then
+    let chips_won = player.bet / 2 in
+    player_updated player (chips_won + side_bet_chips)
   else
     let chips_won = player.bet * -1 in
     player_updated player (chips_won + side_bet_chips)
@@ -119,7 +126,11 @@ let rec continue_playing (player : player) (dealer : dealer) =
       print_endline "The round is a draw. \n"
     else if new_player.win_round = -2 then
       print_endline "Sorry, you busted! \n"
-    else print_endline "You lost the round. \n";
+    else if new_player.win_round = -3 then
+      print_endline "You lost the round to the CPU. \n"
+    else if new_player.win_round = 2 then
+      print_endline "You tied the round with the CPU. \n"
+    else print_endline "You lost the round to the dealer. \n";
     let finished_multiple_game = update_player new_player in
     continue_playing (reset_player finished_multiple_game) dealer_init )
   else player
@@ -130,14 +141,20 @@ let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
 
   let start_player = enter_bet player_init in
-  let player = start_round init_deck start_player dealer_init in
+  let player =
+    start_round init_deck start_player dealer_init dealer_init
+  in
   blackjack_print player;
   if player.win_round = 1 then print_endline "You won the round! \n"
   else if player.win_round = 0 then
     print_endline "The round is a draw. \n"
   else if player.win_round = -2 then
     print_endline "Sorry, you busted! \n"
-  else print_endline "You lost the round. \n";
+  else if player.win_round = 2 then
+    print_endline "You tied the round with the CPU. \n"
+  else if player.win_round = -3 then
+    print_endline "You lost the round to the CPU. \n"
+  else print_endline "You lost the round to the dealer. \n";
 
   let finished_game = update_player player in
   let player_cont =

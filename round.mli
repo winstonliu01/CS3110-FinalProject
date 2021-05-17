@@ -9,10 +9,10 @@ val card : deck -> unit
 
 (**[parse_input] determines whether the player wants to hit or stay and
    will update the player state*)
-val parse_input : deck -> player -> dealer -> player
+val parse_input : deck -> player -> dealer -> dealer -> player
 
 (** [start_round] is the player state after a round is over *)
-val start_round : deck -> player -> dealer -> player
+val start_round : deck -> player -> dealer -> dealer -> player
 
 (**[init_deck] is the deck when the game begins*)
 val init_deck : deck
