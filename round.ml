@@ -173,6 +173,100 @@ and double_down deck player dealer cpu =
     regular_player_state player' (-2)
   else stay_player deck' player' dealer cpu
 
+let rec player_combo
+    (player_card : card list)
+    (combo : float)
+    (ceiling : int) =
+  match player_card with
+  | [] -> combo
+  | h :: t ->
+      (*Fix the value for Ace*)
+      if List.hd h.point <= ceiling then
+        let combo' = combo -. 1. in
+        player_combo t combo' ceiling
+      else player_combo t combo ceiling
+
+let rec cpu_smart_run_game
+    (deck : deck)
+    (cpu : dealer)
+    (dealer : dealer)
+    (player : player) =
+  if cpu.hand_val > 21 then (
+    print_endline "\nThe CPU busted.\n";
+    (deck, cpu) )
+  else
+    let valid_num = 21 - cpu.hand_val in
+    let valid_combo = float_of_int valid_num *. 4. in
+    let total_outcomes = 49 - List.length cpu.hand in
+    if dealer.hand_val <= valid_num then (
+      let valid_combo' = valid_combo -. 1. in
+      let valid_combo'' =
+        player_combo player.hand valid_combo' valid_num
+      in
+      let probability = valid_combo'' /. float_of_int total_outcomes in
+      ANSITerminal.print_string [ ANSITerminal.blue ]
+        ("\nThe CPU's probability is:" ^ string_of_float probability);
+      if probability >= 0.5 then (
+        let cpu' = dealer_start deck cpu in
+        ANSITerminal.print_string [ ANSITerminal.blue ]
+          "\nThe CPU's next card is: \n";
+        let deck' = remove deck in
+        card deck;
+        cpu_smart_run_game deck' cpu' dealer player )
+      else (deck, cpu) )
+    else
+      let valid_combo'' =
+        player_combo player.hand valid_combo valid_num
+      in
+      let probability = valid_combo'' /. float_of_int total_outcomes in
+      ANSITerminal.print_string [ ANSITerminal.blue ]
+        ("\nThe CPU's probability is:" ^ string_of_float probability);
+      if probability >= 0.5 then (
+        let cpu' = dealer_start deck cpu in
+        ANSITerminal.print_string [ ANSITerminal.blue ]
+          "\nThe CPU's next card is: \n";
+        let deck' = remove deck in
+        card deck;
+        cpu_smart_run_game deck' cpu' dealer player )
+      else (deck, cpu)
+
+let cpu_smart_game
+    (deck : deck)
+    (cpu : dealer)
+    (dealer : dealer)
+    (player : player) =
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    "\nThe CPU's first card is: \n";
+  print_card (draw deck);
+  let cpu_1 = dealer_start deck cpu in
+  let updated_deck2 = remove deck in
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    "\nThe CPU's second card is: \n";
+  print_card (draw updated_deck2);
+  let cpu_2 = dealer_start updated_deck2 cpu_1 in
+  let updated_deck3 = remove updated_deck2 in
+
+  if cpu_2.hand_val >= 17 then
+    if cpu_2.hand_val = 21 then (
+      ANSITerminal.print_string [ ANSITerminal.blue ]
+        "\nThe CPU got Blackjack!\n";
+      (deck, cpu_2) )
+    else (
+      ANSITerminal.print_string [ ANSITerminal.blue ]
+        ( "\nThe CPU's hand value is "
+        ^ string_of_int cpu_2.hand_val
+        ^ "\n" );
+      (deck, cpu_2) )
+  else
+    let deck_cpu =
+      cpu_smart_run_game updated_deck3 cpu_2 dealer player
+    in
+    ANSITerminal.print_string [ ANSITerminal.blue ]
+      ( "\nThe CPU's hand value is "
+      ^ string_of_int (snd deck_cpu).hand_val
+      ^ "\n" );
+    deck_cpu
+
 let rec cpu_run_game (deck : deck) (cpu : dealer) (dealer : dealer) =
   if cpu.hand_val > 21 then (
     print_endline "\nThe CPU busted.\n";
@@ -252,7 +346,8 @@ let start_game
   print_card (draw updated_deck2);
   let player_2 = player_start updated_deck2 player_1 in
   let cpu_deck = remove updated_deck2 in
-  let cpu_deck' = cpu_game cpu_deck cpu dealer in
+  (*This is where CPU Game changes*)
+  let cpu_deck' = cpu_smart_game cpu_deck cpu dealer player_2 in
   print_endline "\nNow it is your turn to play...\n";
   if black_jack_checker player_2 = true then (
     print_endline dealer_remaining_card;
