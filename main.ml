@@ -5,7 +5,7 @@ open Player
 open Round
 
 let start_new_round deck player dealer =
-  start_round deck player dealer dealer_init
+  start_round deck player dealer cpu_init
 
 (*Code was referenced from
   http://www.cs.cornell.edu/courses/cs3110/2010fa/lectures/lec02.html*)
@@ -39,6 +39,18 @@ let rec yes_no (player : player) =
       Text.invalid_print ();
       yes_no player
 
+let rec level (player : player) =
+  let lvl = read_line () in
+  match Command.check_level lvl with
+  | "1" -> "1"
+  | "2" -> "2"
+  | "empty" ->
+      Text.empty_print ();
+      level player
+  | _ ->
+      Text.invalid_print ();
+      level player
+
 let bet_player (player : player) (bet_entered : int) =
   {
     hand = player.hand;
@@ -48,6 +60,7 @@ let bet_player (player : player) (bet_entered : int) =
     win_round = player.win_round;
     is_blackjack = player.is_blackjack;
     side_bet = player.side_bet;
+    is_cpu = player.is_cpu;
   }
 
 let player_updated (player : player) chips_won =
@@ -59,6 +72,7 @@ let player_updated (player : player) chips_won =
     win_round = player.win_round;
     is_blackjack = player.is_blackjack;
     side_bet = player.side_bet;
+    is_cpu = player.is_cpu;
   }
 
 let update_player (player : player) =
@@ -110,27 +124,24 @@ let rec enter_bet (player : player) =
       else bet_player player bet_entered
 
 let rec continue_playing (player : player) (dealer : dealer) =
-  print_endline "Would you like to play another round? \n";
+  print_endline more_round;
   print_string "> ";
   let response = yes_no player in
   if response = "yes" && player.chips > 0 then (
     ANSITerminal.print_string [ ANSITerminal.red ] new_round_string;
     let bet_player = enter_bet player in
+    Text.level ();
+    let cpu_lvl = level bet_player in
     let new_player =
-      start_new_round (shuffle init_deck) bet_player dealer_init
+      start_new_round (shuffle init_deck) bet_player dealer_init cpu_lvl
     in
     blackjack_print new_player;
-    if new_player.win_round = 1 then
-      print_endline "You won the round! \n"
-    else if new_player.win_round = 0 then
-      print_endline "The round is a draw. \n"
-    else if new_player.win_round = -2 then
-      print_endline "Sorry, you busted! \n"
-    else if new_player.win_round = -3 then
-      print_endline "You lost the round to the CPU. \n"
-    else if new_player.win_round = 2 then
-      print_endline "You tied the round with the CPU. \n"
-    else print_endline "You lost the round to the dealer. \n";
+    if new_player.win_round = 1 then print_endline win
+    else if new_player.win_round = 0 then print_endline Text.draw
+    else if new_player.win_round = -2 then print_endline Text.bust
+    else if new_player.win_round = -3 then print_endline Text.loss_cpu
+    else if new_player.win_round = 2 then print_endline Text.tie_cpu
+    else print_endline Text.loss_dealer;
     let finished_multiple_game = update_player new_player in
     continue_playing (reset_player finished_multiple_game) dealer_init )
   else player
@@ -141,28 +152,25 @@ let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] start_round_string;
 
   let start_player = enter_bet player_init in
+  Text.level ();
+  let cpu_lvl = level start_player in
   let player =
-    start_round init_deck start_player dealer_init dealer_init
+    start_round init_deck start_player dealer_init cpu_init cpu_lvl
   in
   blackjack_print player;
-  if player.win_round = 1 then print_endline "You won the round! \n"
-  else if player.win_round = 0 then
-    print_endline "The round is a draw. \n"
-  else if player.win_round = -2 then
-    print_endline "Sorry, you busted! \n"
-  else if player.win_round = 2 then
-    print_endline "You tied the round with the CPU. \n"
-  else if player.win_round = -3 then
-    print_endline "You lost the round to the CPU. \n"
-  else print_endline "You lost the round to the dealer. \n";
+  if player.win_round = 1 then print_endline win
+  else if player.win_round = 0 then print_endline Text.draw
+  else if player.win_round = -2 then print_endline Text.bust
+  else if player.win_round = 2 then print_endline Text.tie_cpu
+  else if player.win_round = -3 then print_endline Text.loss_cpu
+  else print_endline Text.loss_dealer;
 
   let finished_game = update_player player in
   let player_cont =
     continue_playing (reset_player finished_game) dealer_init
   in
 
-  if player_cont.chips <= 0 then
-    print_endline "\nSorry, you went bankrupt!\n"
+  if player_cont.chips <= 0 then print_endline Text.bankrupt
   else
     print_endline
       ( "\nGoodbye, you leave the game with "

@@ -7,4 +7,5 @@
 #load "command.cmo";;
 #load "player.cmo";;
 #load "round.cmo";;
+#load "cpu.cmo";;
 

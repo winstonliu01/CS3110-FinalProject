@@ -13,10 +13,30 @@ let dealer_card1_string = "\nThe dealer's first card is: \n"
 
 let new_round_string = "\nA new round is starting, get ready!\n"
 
-let invalid_input = "Invalid action. Please try again."
+let invalid_input = "Invalid input. Please try again."
 
 let dealer_remaining_card =
   "\nThe dealer's hidden card and remaining cards are:\n"
+
+let more_round = "Would you like to play another round? \n"
+
+let win = "You won the round! \n"
+
+let draw = "The round is a draw. \n"
+
+let bust = "Sorry, you busted! \n"
+
+let loss_cpu = "You lost the round to the CPU. \n"
+
+let tie_cpu = "You tied the round with the CPU. \n"
+
+let loss_dealer = "You lost the round to the dealer. \n"
+
+let bankrupt = "\nSorry, you went bankrupt!\n"
+
+let level () =
+  print_endline "What level do you want? 1 or 2 \n";
+  print_string "> "
 
 let empty_print () =
   print_endline "\nEmpty input, please try again. \n";

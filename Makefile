@@ -1,4 +1,4 @@
-MODULES= deck main author text command player round 
+MODULES= deck main author text command player round cpu
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

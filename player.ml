@@ -10,6 +10,7 @@ type player = {
   win_round : int;
   is_blackjack : bool;
   side_bet : int;
+  is_cpu : bool;
 }
 
 type dealer = {
@@ -26,6 +27,19 @@ let player_init =
     win_round = 0;
     is_blackjack = false;
     side_bet = 0;
+    is_cpu = false;
+  }
+
+let cpu_init =
+  {
+    hand = [];
+    hand_val = 0;
+    chips = 100;
+    bet = 0;
+    win_round = 0;
+    is_blackjack = false;
+    side_bet = 0;
+    is_cpu = true;
   }
 
 let dealer_init = { hand = []; hand_val = 0 }
@@ -39,6 +53,19 @@ let reset_player player =
     win_round = 0;
     is_blackjack = false;
     side_bet = 0;
+    is_cpu = false;
+  }
+
+let reset_cpu player =
+  {
+    hand = [];
+    hand_val = 0;
+    chips = player.chips;
+    bet = 0;
+    win_round = 0;
+    is_blackjack = false;
+    side_bet = 0;
+    is_cpu = true;
   }
 
 let rec ace_value temp =
@@ -74,7 +101,7 @@ let black_jack_checker (player : player) =
   decide.*)
 let ace_checker total = if total + 11 > 21 then 1 else ace_value 0
 
-let ace_checker_d total = if total + 11 > 21 then 1 else 11
+let ace_checker_auto total = if total + 11 > 21 then 1 else 11
 
 let bust_checker_player (player : player) = player.hand_val > 21
 
@@ -89,13 +116,18 @@ let player_hand (player : player) (updated_total : int) =
     win_round = player.win_round;
     is_blackjack = player.is_blackjack;
     side_bet = player.side_bet;
+    is_cpu = player.is_cpu;
   }
 
 let point_add_player total card (player : player) =
   match card.rank with
   | "A" ->
-      let updated_total = total + ace_checker total in
-      player_hand player updated_total
+      if player.is_cpu then
+        let updated_total = total + ace_checker_auto total in
+        player_hand player updated_total
+      else
+        let updated_total = total + ace_checker total in
+        player_hand player updated_total
   | _ ->
       let updated_total = total + List.hd card.point in
       player_hand player updated_total
@@ -104,7 +136,7 @@ let point_add_dealer total card (dealer : dealer) =
   match card.rank with
   | "A" ->
       (*For now, we will just assign the highest value *)
-      let updated_total = total + ace_checker_d total in
+      let updated_total = total + ace_checker_auto total in
       { hand = dealer.hand; hand_val = updated_total }
   | _ ->
       let updated_total = total + List.hd card.point in

@@ -20,3 +20,6 @@ val check_bet : string -> string
 (** [check_side_bet] determines whether the user entered a valid side
     bet *)
 val check_side_bet : string -> string
+
+(** [check_level] determines what CPU the user wants *)
+val check_level : string -> string

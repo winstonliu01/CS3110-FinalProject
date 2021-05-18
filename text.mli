@@ -21,6 +21,35 @@ val invalid_input : string
    card *)
 val dealer_remaining_card : string
 
+(**[more_round] is the string asking user if they want to play another
+   round *)
+val more_round : string
+
+(**[win] is the string telling the user they won the round *)
+val win : string
+
+(**[draw] is the string telling the user the round was a draw *)
+val draw : string
+
+(**[bust] is the string telling the user they busted *)
+val bust : string
+
+(**[loss_cpu] is the string telling the user they lost to the CPU *)
+val loss_cpu : string
+
+(**[tie_cpu] is the string telling the user they tied with the CPU *)
+val tie_cpu : string
+
+(**[loss_dealer] is the string telling the user they lost to the dealer *)
+val loss_dealer : string
+
+(**[bankrupt] is the string telling the user they went bankrupt *)
+val bankrupt : string
+
+(**[bankrupt] is the string asking the user what level they want the CPU
+   to be *)
+val level : unit -> unit
+
 (**[empty_print] outputs to the user they've inputted an empty input *)
 val empty_print : unit -> unit
 

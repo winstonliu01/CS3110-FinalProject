@@ -41,6 +41,16 @@ let valid_length_hit_stay str =
     | "stay" -> "stay"
     | _ -> "invalid input"
 
+let valid_length_level str =
+  let str_list = StringLabels.split_on_char ' ' str in
+  if List.length str_list <> 1 then "invalid input"
+  else
+    let format_str = StringLabels.lowercase_ascii str in
+    match format_str with
+    | "1" -> "1"
+    | "2" -> "2"
+    | _ -> "invalid input"
+
 let valid_bet str =
   try string_of_int (int_of_string str)
   with Failure _ -> "invalid input"
@@ -70,3 +80,7 @@ let check_bet str =
 let check_side_bet str =
   let trim_str = deblank str in
   empty trim_str valid_length_1_2_3
+
+let check_level str =
+  let trim_str = deblank str in
+  empty trim_str valid_length_level

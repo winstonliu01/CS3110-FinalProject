@@ -12,6 +12,7 @@ type player = {
   win_round : int;
   is_blackjack : bool;
   side_bet : int;
+  is_cpu : bool;
 }
 
 (**type representing a dealer *)
@@ -36,6 +37,9 @@ val player_init : player
 
 (**[dealer_init] is the state of the dealer when the game begins*)
 val dealer_init : dealer
+
+(**[cpu_init] is the state of the CPU when the game begins*)
+val cpu_init : player
 
 (**[bust_checker_player] is if the player's hand value is over 21*)
 val bust_checker_player : player -> bool
