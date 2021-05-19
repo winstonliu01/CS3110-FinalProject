@@ -75,7 +75,7 @@ let player_updated (player : player) chips_won =
     is_cpu = player.is_cpu;
   }
 
-let update_player (player : player) (cpu : player) =
+let update_player (player : player) =
   let side_bet_chips = check_side_bet player in
   if player.is_blackjack = true then
     let chips_won = player.bet * 2 in
@@ -84,12 +84,8 @@ let update_player (player : player) (cpu : player) =
     let chips_won = player.bet / 2 in
     player_updated player (chips_won + side_bet_chips)
   else if player.win_round = 1 then
-    if cpu.win_round = 1 then
-      let chips_won = player.bet in
-      player_updated player (chips_won + side_bet_chips)
-    else
-      let chips_won = player.bet / 2 in
-      player_updated player (chips_won + side_bet_chips)
+    let chips_won = player.bet in
+    player_updated player (chips_won + side_bet_chips)
   else
     let chips_won = player.bet * -1 in
     player_updated player (chips_won + side_bet_chips)
@@ -121,16 +117,11 @@ let rec enter_bet (player : player) =
       else bet_player player bet_entered
 
 (*Fix print_results - always entering last branch*)
-let print_results (p1 : player) (p2 : player) =
-  if p1.win_round = 1 && p2.win_round <> 1 then print_endline win
-  else if p1.win_round <> 1 && p2.win_round = 1 then
-    print_endline Text.loss_cpu
-  else if p1.win_round = 1 && p2.win_round = 1 then
-    if p1.hand_val > p2.hand_val then print_endline win
-    else if p1.hand_val < p2.hand_val then print_endline Text.loss_cpu
-    else if p1.win_round = 0 then print_endline Text.draw
-    else if p1.win_round = -2 then print_endline Text.bust
-    else print_endline Text.loss_dealer
+let print_results (p1 : player) =
+  if p1.win_round = 1 then print_endline Text.win
+  else if p1.win_round = 0 then print_endline Text.draw
+  else if p1.win_round = -2 then print_endline Text.bust
+  else print_endline Text.loss_dealer
 
 let rec continue_playing
     (player : player)
@@ -153,8 +144,8 @@ let rec continue_playing
     (*Delete when done*)
     print_string (string_of_int p1.win_round);
     print_string (string_of_int p2.win_round);
-    print_results p1 p2;
-    let finished_multiple_game = update_player p1 p2 in
+    print_results p1;
+    let finished_multiple_game = update_player p1 in
     continue_playing
       (reset_player finished_multiple_game)
       dealer_init cpu )
@@ -178,9 +169,9 @@ let main () =
   print_string (string_of_int p1.win_round);
   print_string (string_of_int p2.win_round);
 
-  print_results p1 p2;
+  print_results p1;
 
-  let finished_game = update_player p1 p2 in
+  let finished_game = update_player p1 in
   let player_cont =
     continue_playing
       (reset_player finished_game)

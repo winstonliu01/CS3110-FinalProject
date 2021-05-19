@@ -71,8 +71,13 @@ and probability_func
   let valid_combo'' = player_combo player.hand valid_combo valid_num in
 
   let probability = valid_combo'' /. float_of_int total_outcomes in
-  ANSITerminal.print_string [ ANSITerminal.blue ]
-    ("\nThe CPU's probability is:" ^ string_of_float probability);
+  if probability <= 0. then
+    ANSITerminal.print_string [ ANSITerminal.blue ]
+      "\nThe CPU's probability of not busting is: 0"
+  else
+    ANSITerminal.print_string [ ANSITerminal.blue ]
+      ( "\nThe CPU's probability of not busting is:"
+      ^ string_of_float probability );
   if probability >= 0.55 then (
     let cpu' = cpu_update deck cpu in
     ANSITerminal.print_string [ ANSITerminal.blue ]

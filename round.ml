@@ -139,7 +139,7 @@ and stay_player deck (player : player) (dealer : dealer) (cpu : player)
   else dealer_total dealer;
 
   let cpu' = cpu_dealer_check dealer cpu in
-  let player' = player_dealer_check dealer cpu in
+  let player' = player_dealer_check dealer player in
   (player', cpu')
 
 (**Update player state based on whether they want to double down*)
