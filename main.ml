@@ -4,9 +4,6 @@ open Command
 open Player
 open Round
 
-let start_new_round deck player dealer =
-  start_round deck player dealer cpu_init
-
 (*Code was referenced from
   http://www.cs.cornell.edu/courses/cs3110/2010fa/lectures/lec02.html*)
 let isPrime (n : int) : bool =
@@ -63,6 +60,15 @@ let bet_player (player : player) (bet_entered : int) =
     is_cpu = player.is_cpu;
   }
 
+let cpu_bet (cpu : player) =
+  let _ = Random.self_init () in
+  let num1 = Random.int 9 + 1 in
+  let num2 = Random.int 4 + 1 in
+  if cpu.chips <= 50 then bet_player cpu (cpu.chips / num1)
+  else
+    let bet = Stdlib.min (cpu.chips / num1 * num2) cpu.chips in
+    bet_player cpu bet
+
 let player_updated (player : player) chips_won =
   {
     hand = player.hand;
@@ -117,11 +123,11 @@ let rec enter_bet (player : player) =
       else bet_player player bet_entered
 
 (*Fix print_results - always entering last branch*)
-let print_results (p1 : player) =
-  if p1.win_round = 1 then print_endline Text.win
-  else if p1.win_round = 0 then print_endline Text.draw
-  else if p1.win_round = -2 then print_endline Text.bust
-  else print_endline Text.loss_dealer
+let print_results (p1 : player) (user : string) =
+  if p1.win_round = 1 then print_endline (user ^ ": " ^ Text.win)
+  else if p1.win_round = 0 then print_endline (user ^ ": " ^ Text.draw)
+  else if p1.win_round = -2 then print_endline (user ^ ": " ^ Text.bust)
+  else print_endline (user ^ ": " ^ Text.loss_dealer)
 
 let rec continue_playing
     (player : player)
@@ -130,26 +136,34 @@ let rec continue_playing
   print_endline more_round;
   print_string "> ";
   let response = yes_no player in
-  if response = "yes" && player.chips > 0 then (
+  if response = "yes" && player.chips > 0 && cpu.chips > 0 then (
     ANSITerminal.print_string [ ANSITerminal.red ] new_round_string;
     let bet_player = enter_bet player in
     Text.level ();
     let cpu_lvl = level bet_player in
+    let cpu_bet = cpu_bet cpu in
+    print_endline
+      ("The CPU has " ^ string_of_int cpu_bet.chips ^ " chips.");
+    print_endline
+      ("The CPU bet: " ^ string_of_int cpu_bet.bet ^ " chips.");
     let new_player =
-      start_new_round (shuffle init_deck) bet_player dealer_init cpu_lvl
+      start_round (shuffle init_deck) bet_player dealer_init cpu_bet
+        cpu_lvl
     in
     let p1 = fst new_player in
     let p2 = snd new_player in
     blackjack_print p1;
-    (*Delete when done*)
-    print_string (string_of_int p1.win_round);
-    print_string (string_of_int p2.win_round);
-    print_results p1;
-    let finished_multiple_game = update_player p1 in
+
+    print_results p1 "Player";
+    print_results p2 "CPU";
+
+    let finished_multiple_game_p1 = update_player p1 in
+    let finished_multiple_game_p2 = update_player p2 in
     continue_playing
-      (reset_player finished_multiple_game)
-      dealer_init cpu )
-  else player
+      (reset_player finished_multiple_game_p1)
+      dealer_init
+      (reset_player finished_multiple_game_p2) )
+  else (player, cpu)
 
 (** [main ()] starts blackjack. *)
 let main () =
@@ -159,30 +173,38 @@ let main () =
   let start_player = enter_bet player_init in
   Text.level ();
   let cpu_lvl = level start_player in
+  let cpu_bet = cpu_bet cpu_init in
+  print_endline
+    ("The CPU has " ^ string_of_int cpu_bet.chips ^ " chips.");
+  print_endline ("The CPU bet: " ^ string_of_int cpu_bet.bet ^ " chips.");
   let player =
-    start_round init_deck start_player dealer_init cpu_init cpu_lvl
+    start_round init_deck start_player dealer_init cpu_bet cpu_lvl
   in
   let p1 = fst player in
   let p2 = snd player in
   blackjack_print p1;
-  (*Delete when done*)
-  print_string (string_of_int p1.win_round);
-  print_string (string_of_int p2.win_round);
 
-  print_results p1;
+  (*Fix print statements - Formatting*)
+  print_results p1 "Player";
+  print_results p2 "CPU";
 
-  let finished_game = update_player p1 in
+  let finished_game_p1 = update_player p1 in
+  let finished_game_p2 = update_player p2 in
   let player_cont =
     continue_playing
-      (reset_player finished_game)
-      dealer_init (reset_player p2)
+      (reset_player finished_game_p1)
+      dealer_init
+      (reset_player finished_game_p2)
   in
 
-  if player_cont.chips <= 0 then print_endline Text.bankrupt
+  let p1 = fst player_cont in
+  let p2 = snd player_cont in
+
+  if p1.chips <= 0 then print_endline Text.bankrupt
+  else if p2.chips <= 0 then print_endline "The CPU went bankrupt"
   else
     print_endline
-      ( "\nGoodbye, you leave the game with "
-      ^ string_of_int player_cont.chips
+      ( "\nGoodbye, you leave the game with " ^ string_of_int p1.chips
       ^ " chips. \n" )
 
 (* Execute the game engine. *)

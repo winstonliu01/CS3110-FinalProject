@@ -26,10 +26,6 @@ let draw = "The round is a draw. \n"
 
 let bust = "Sorry, you busted! \n"
 
-let loss_cpu = "You lost the round to the CPU. \n"
-
-let tie_cpu = "You tied the round with the CPU. \n"
-
 let loss_dealer = "You lost the round to the dealer. \n"
 
 let bankrupt = "\nSorry, you went bankrupt!\n"

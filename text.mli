@@ -34,12 +34,6 @@ val draw : string
 (**[bust] is the string telling the user they busted *)
 val bust : string
 
-(**[loss_cpu] is the string telling the user they lost to the CPU *)
-val loss_cpu : string
-
-(**[tie_cpu] is the string telling the user they tied with the CPU *)
-val tie_cpu : string
-
 (**[loss_dealer] is the string telling the user they lost to the dealer *)
 val loss_dealer : string
 
