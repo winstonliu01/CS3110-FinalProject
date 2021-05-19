@@ -1,3 +1,5 @@
+(**Contains the instruction for the automated player*)
+
 open Text
 open Deck
 open Player

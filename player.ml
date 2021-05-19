@@ -68,6 +68,8 @@ let reset_cpu player =
     is_cpu = true;
   }
 
+(**Asks the user what they want the ace value to be - Ace value is
+   immutable*)
 let rec ace_value temp =
   print_endline "Do you want your Ace to be worth 1 or 11? \n";
   print_string "> ";
@@ -82,7 +84,6 @@ let rec ace_value temp =
       Text.invalid_print ();
       ace_value 0
 
-(*Possibly check it some other way?*)
 let black_jack_checker (player : player) =
   match player.hand with
   | [ h; t ] ->
@@ -96,17 +97,20 @@ let black_jack_checker (player : player) =
       else false
   | _ -> false
 
-(*If Ace is 11 and bust, we set it to one which could bust as well. But
-  we take care of that later. Otherwise if it doesn't we let the user
-  decide.*)
+(**If Ace is 11 and bust, we set it to one which could bust as well. But
+   we take care of that later. Otherwise if it doesn't we let the user
+   decide.*)
 let ace_checker total = if total + 11 > 21 then 1 else ace_value 0
 
+(**If Ace is 11 and bust, we set it to one which could bust as well. But
+   we take care of that later. Otherwise if it assigns a value of 11*)
 let ace_checker_auto total = if total + 11 > 21 then 1 else 11
 
 let bust_checker_player (player : player) = player.hand_val > 21
 
 let bust_checker_dealer (dealer : dealer) = dealer.hand_val > 21
 
+(**Updates the player's hand based on the new total*)
 let player_hand (player : player) (updated_total : int) =
   {
     hand = player.hand;

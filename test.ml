@@ -3,6 +3,43 @@ open Deck
 open Command
 open Player
 
+(*Testing Approach*)
+
+(* Since our final project was a game, we played it manually to
+   determine if the behavior is what we expected. However, we used
+   automated testing heavily in the beginning sprints to test the
+   correctness of our set up. Within the Deck module, we used size to
+   test whether we were removing cards correctly and if shuffling it
+   would have any effect on it. Additionally, we removed cards from a
+   sorted deck to ensure that the proper cards were being drawn. In the
+   Command module, we wrote automated tests as well for the various
+   functions. This module allowed us to test more in depth since it did
+   not require us to create values before hand. So, we tested for valid
+   inputs as well as invalid inputs such as malformed and empty inputs.
+   For these two modules, we used a glassbox approach as we analyzed
+   places where could be potential entry points and tested them
+   directly. The player module was more difficult to test automatically
+   because it required us to constantly create player and card values.
+   Therefore, we weren't able to utilize a glassbox approach and used a
+   random spot check here. So although we did write some OUnit tests, it
+   was around here when we started to rely on manual testing. This is
+   the same case for the Cpu, Main,and Round modules. By playing the
+   game, we believe that we could prove our program's correctness. Even
+   now, we have print statements for the user to display the total.
+   Doing so when we tested, we were able to see if points were being
+   added correctly. Furthermore, we saw whether the next round was being
+   started with the right states as an update was given that told us how
+   many chips the CPU and player had. Lastly, the behavior for busting
+   and winning/losing the game will invoke a different statement to be
+   printed. By running through many games, we noticed that the system
+   seem to be displaying correct value and outputs to console. However,
+   we were unable to perfectly confirm this as the setting for each
+   round is different given our shuffle function. But, we strongly
+   believe that the behavior is correct based on what we have seen
+   despite possible edge cases popping up. In summary, we used OUnit
+   testing early on to see our set up was valid and manually played the
+   game which tested our entire program. *)
+
 (******* Deck Testing *******)
 
 let shuffle_test
@@ -40,6 +77,7 @@ let deck_tests =
     size_test "Full Deck Size Shuffled" (shuffle create) 52;
     size_test "One card removed" (remove create) 51;
     size_test "Two cards removed" (remove (remove create)) 50;
+    size_test "Three cards removed" (remove (remove (remove create))) 49;
     shuffle_test "Random Shuffle 1 - Cards still present"
       (shuffle create) create;
     shuffle_test "Random Shuffle 2 - Cards still present"
@@ -54,9 +92,14 @@ let deck_tests =
     empty_test "Not empty" (shuffle create) false;
     point_test "First card" (draw create) [ 1; 11 ];
     point_test "Second card" (draw (remove create)) [ 2 ];
+    point_test "Third card" (draw (remove (remove create))) [ 3 ];
   ]
 
 (******* Command Testing *******)
+
+(*Pretty Printer for Test Cases*)
+(* let pp_string s = "\"" ^ s ^ "\"" *)
+
 let check_hit_stay_test
     (name : string)
     (input : string)
@@ -74,6 +117,12 @@ let check_1_11_test
     (input : string)
     (expected_output : string) : test =
   name >:: fun _ -> assert_equal expected_output (check_1_11 input)
+
+let check_bet_test
+    (name : string)
+    (input : string)
+    (expected_output : string) : test =
+  name >:: fun _ -> assert_equal expected_output (check_bet input)
 
 let command_tests =
   [
@@ -101,6 +150,10 @@ let command_tests =
     check_1_11_test "Already proper 11" "11" "11";
     check_1_11_test "empty string" "     " "empty";
     check_1_11_test "malformed string" "22" "invalid input";
+    check_bet_test "Valid Bet" "22" "22";
+    check_bet_test "Valid Bet" "0" "0";
+    check_bet_test "Non-integer" "abcd" "invalid input";
+    check_bet_test "Non-integer" "2r3" "invalid input";
   ]
 
 (******* Player Testing *******)
@@ -146,6 +199,8 @@ let player_j =
     bet = 0;
     win_round = 0;
     is_blackjack = false;
+    side_bet = 0;
+    is_cpu = false;
   }
 
 let player_j_a =
@@ -156,6 +211,8 @@ let player_j_a =
     bet = 0;
     win_round = 0;
     is_blackjack = true;
+    side_bet = 0;
+    is_cpu = false;
   }
 
 let player_j_a_7 =
@@ -166,6 +223,8 @@ let player_j_a_7 =
     bet = 0;
     win_round = -2;
     is_blackjack = false;
+    side_bet = 0;
+    is_cpu = false;
   }
 
 let player_7 =
@@ -176,6 +235,8 @@ let player_7 =
     bet = 0;
     win_round = 0;
     is_blackjack = false;
+    side_bet = 0;
+    is_cpu = false;
   }
 
 let player_7_a1 =
@@ -186,6 +247,8 @@ let player_7_a1 =
     bet = 0;
     win_round = 0;
     is_blackjack = false;
+    side_bet = 0;
+    is_cpu = false;
   }
 
 let player_7_4 =
@@ -196,6 +259,8 @@ let player_7_4 =
     bet = 0;
     win_round = 0;
     is_blackjack = false;
+    side_bet = 0;
+    is_cpu = false;
   }
 
 let player_tests =
@@ -209,8 +274,6 @@ let player_tests =
     bust_checker_player_test "No Bust" player_7_a1 false;
     bust_checker_player_test "Busted" player_j_a_7 true;
   ]
-
-(******* Round and Main Testing - Need to play the game to see*******)
 
 let suite =
   "test suite for blackjack"

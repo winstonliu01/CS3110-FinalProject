@@ -6,15 +6,20 @@ type card = {
 
 type deck = card list
 
+(**Raised if a rank is not matched to a point*)
 exception RP_Not_Found
 
+(**Raised if one tries to remove an empty deck*)
 exception Empty
 
+(**List of possible suites*)
 let suite_lst = [ "♠"; "♥"; "♦"; "♣" ]
 
+(**List of possible ranks*)
 let rank =
   [ "A"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"; "10"; "J"; "Q"; "K" ]
 
+(**Matches rank to point value*)
 let rank_to_points =
   [
     ("A", [ 1; 11 ]);
@@ -61,6 +66,8 @@ let rec create_suite suite acc =
 
 let create = List.rev (create_suite suite_lst [])
 
+(**Initialize the Random generator so each time a different number is
+   generated*)
 let _ = Random.self_init ()
 
 let shuffle (deck : deck) =
@@ -82,23 +89,28 @@ let size deck = List.length deck
 
 let empty deck = List.length deck = 0
 
-let sort_deck deck = List.sort compare deck
-
 let point card = card.point
 
+let sort_deck deck = List.sort compare deck
+
+(**Top and bottom of the card design*)
 let header = " _______ "
 
+(**Side for cards - rank row*)
 let print_rank rank is_ten =
   if is_ten = false then "|   " ^ rank ^ "   |"
   else "|  " ^ rank ^ "   |"
 
+(**Side for cards - suite row*)
 let print_suite suite is_ten =
   if is_ten = false then "|   " ^ suite ^ "   |"
   else "|   " ^ suite ^ "   |"
 
+(**Side for cards - normal row*)
 let print_norm is_ten =
   if is_ten = false then "|       |" else "|       |"
 
+(** Prints the list that contains each row of our card*)
 let rec print_list lst =
   match lst with
   | [] -> print_endline ""
@@ -106,6 +118,7 @@ let rec print_list lst =
       print_endline h;
       print_list t
 
+(**Card layout*)
 let print_card_helper suite rank =
   if rank = "10" then
     let card_list =

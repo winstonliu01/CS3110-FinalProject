@@ -88,6 +88,9 @@ let cpu_dealer_check (dealer : dealer) (cpu : player) =
   else if dealer.hand_val = cpu.hand_val then
     let cpu' = regular_player_state cpu 0 false in
     cpu'
+  else if bust_checker_player cpu = true then
+    let cpu' = regular_player_state cpu (-1) false in
+    cpu'
   else
     let cpu' = regular_player_state cpu 1 false in
     cpu'
@@ -117,16 +120,28 @@ let rec hit_player
     let new_deck = shuffle create in
     card new_deck;
     let updated_player = player_update new_deck player in
-    if bust_checker_player updated_player = true then
+    if bust_checker_player updated_player = true then (
       let p1 = regular_player_state player (-2) false in
-      (p1, cpu)
+      let dealer = dealer_cont deck dealer in
+      print_endline dealer_remaining_card;
+      if dealer.hand_val > 21 then
+        print_endline "\nThe dealer busted!\n"
+      else dealer_total dealer;
+      let cpu' = cpu_dealer_check dealer cpu in
+      (p1, cpu') )
     else parse_input new_deck updated_player dealer cpu )
   else (
     card deck;
     let updated_player = player_update deck player in
-    if bust_checker_player updated_player = true then
+    if bust_checker_player updated_player = true then (
       let p1 = regular_player_state player (-2) false in
-      (p1, cpu)
+      print_endline dealer_remaining_card;
+      let dealer = dealer_cont deck dealer in
+      if dealer.hand_val > 21 then
+        print_endline "\nThe dealer busted!\n"
+      else dealer_total dealer;
+      let cpu' = cpu_dealer_check dealer cpu in
+      (p1, cpu') )
     else parse_input (remove deck) updated_player dealer cpu )
 
 (**Update player state based on a stay command*)
@@ -142,7 +157,6 @@ and stay_player deck (player : player) (dealer : dealer) (cpu : player)
   let player' = player_dealer_check dealer player in
   (player', cpu')
 
-(**Update player state based on whether they want to double down*)
 and parse_input deck (player : player) (dealer : dealer) (cpu : player)
     =
   print_endline "Do you want to double down? \n";
@@ -264,7 +278,7 @@ let player_sidebet (player : player) (side_bet : int) =
     is_cpu = player.is_cpu;
   }
 
-(**Enables player to enter a side bet*)
+(**Asks the player to enter a side bet*)
 let rec side_bet (deck : deck) (player : player) (dealer : dealer) =
   print_endline "Your side bet options are: \n";
   print_endline "1. Your hand value is an odd number (5 chips) \n";
@@ -284,7 +298,6 @@ let rec side_bet (deck : deck) (player : player) (dealer : dealer) =
       Text.invalid_print ();
       side_bet deck player dealer
 
-(**Starts the round*)
 let rec start_round
     (deck : deck)
     (player : player)

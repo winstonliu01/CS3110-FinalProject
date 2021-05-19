@@ -1,7 +1,5 @@
 (** Parses command to check for valid input*)
 
-type command = string
-
 (** [check_1_11] determines whether the user wants the ace to be 1 or 11
     points*)
 val check_1_11 : string -> string

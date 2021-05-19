@@ -2,10 +2,12 @@ open Text
 open Deck
 open Player
 
+(**Takes the first card from the deck and print it*)
 let card deck =
   let c = draw deck in
   print_card c
 
+(**Updates the CPU state*)
 let cpu_update (deck : deck) (player : player) =
   let player_card = draw deck in
   let updated_player =
@@ -25,6 +27,8 @@ let cpu_update (deck : deck) (player : player) =
   in
   player
 
+(**Update how many cards we have seen based on what is in the player's
+   hand*)
 let rec player_combo
     (player_card : card list)
     (combo : float)
@@ -37,9 +41,11 @@ let rec player_combo
         player_combo t combo' ceiling
       else player_combo t combo ceiling
 
+(**Generates number of valid cards that would cause us not to bust*)
 let combo num =
   if num >= 10 then float_of_int 10 *. 4. else float_of_int num *. 4.
 
+(**Runs a smart game based on cards seen and probability of busting*)
 let rec cpu_smart_run_game
     (deck : deck)
     (cpu : player)
@@ -60,6 +66,7 @@ let rec cpu_smart_run_game
       probability_func deck cpu dealer player valid_combo valid_num
         total_outcomes
 
+(**Determines the probability of busting and act accordingly to it*)
 and probability_func
     (deck : deck)
     (cpu : player)
@@ -87,6 +94,7 @@ and probability_func
     cpu_smart_run_game deck' cpu' dealer player )
   else (deck, cpu)
 
+(**Draws the first two cards and returns CPU handvalue*)
 let cpu_smart_game
     (deck : deck)
     (cpu : player)
@@ -124,6 +132,7 @@ let cpu_smart_game
       ^ "\n" );
     deck_cpu
 
+(**Runs the game based on hard totals and Blackjack strategy*)
 let rec cpu_run_game (deck : deck) (cpu : player) (dealer : dealer) =
   if cpu.hand_val > 21 then (
     print_endline "\nThe CPU busted.\n";
@@ -155,6 +164,7 @@ let rec cpu_run_game (deck : deck) (cpu : player) (dealer : dealer) =
     card deck;
     cpu_run_game deck' cpu' dealer
 
+(**Draws the first two cards and returns CPU handvalue*)
 let cpu_game (deck : deck) (cpu : player) (dealer : dealer) =
   ANSITerminal.print_string [ ANSITerminal.blue ]
     "\nThe CPU's first card is: \n";
@@ -186,6 +196,7 @@ let cpu_game (deck : deck) (cpu : player) (dealer : dealer) =
       ^ "\n" );
     deck_cpu
 
+(**Runs the CPU round based on the input level*)
 let run_cpu
     (deck : deck)
     (cpu : player)
