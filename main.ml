@@ -75,9 +75,8 @@ let player_updated (player : player) chips_won =
     is_cpu = player.is_cpu;
   }
 
-let update_player (player : player) =
+let update_player (player : player) (cpu : player) =
   let side_bet_chips = check_side_bet player in
-
   if player.is_blackjack = true then
     let chips_won = player.bet * 2 in
     player_updated player (chips_won + side_bet_chips)
@@ -85,14 +84,12 @@ let update_player (player : player) =
     let chips_won = player.bet / 2 in
     player_updated player (chips_won + side_bet_chips)
   else if player.win_round = 1 then
-    let chips_won = player.bet in
-    player_updated player (chips_won + side_bet_chips)
-  else if player.win_round = -3 then
-    let chips_won = player.bet / 4 in
-    player_updated player (chips_won + side_bet_chips)
-  else if player.win_round = 2 then
-    let chips_won = player.bet / 2 in
-    player_updated player (chips_won + side_bet_chips)
+    if cpu.win_round = 1 then
+      let chips_won = player.bet in
+      player_updated player (chips_won + side_bet_chips)
+    else
+      let chips_won = player.bet / 2 in
+      player_updated player (chips_won + side_bet_chips)
   else
     let chips_won = player.bet * -1 in
     player_updated player (chips_won + side_bet_chips)
@@ -123,7 +120,22 @@ let rec enter_bet (player : player) =
         else enter_bet player )
       else bet_player player bet_entered
 
-let rec continue_playing (player : player) (dealer : dealer) =
+(*Fix print_results - always entering last branch*)
+let print_results (p1 : player) (p2 : player) =
+  if p1.win_round = 1 && p2.win_round <> 1 then print_endline win
+  else if p1.win_round <> 1 && p2.win_round = 1 then
+    print_endline Text.loss_cpu
+  else if p1.win_round = 1 && p2.win_round = 1 then
+    if p1.hand_val > p2.hand_val then print_endline win
+    else if p1.hand_val < p2.hand_val then print_endline Text.loss_cpu
+    else if p1.win_round = 0 then print_endline Text.draw
+    else if p1.win_round = -2 then print_endline Text.bust
+    else print_endline Text.loss_dealer
+
+let rec continue_playing
+    (player : player)
+    (dealer : dealer)
+    (cpu : player) =
   print_endline more_round;
   print_string "> ";
   let response = yes_no player in
@@ -135,15 +147,17 @@ let rec continue_playing (player : player) (dealer : dealer) =
     let new_player =
       start_new_round (shuffle init_deck) bet_player dealer_init cpu_lvl
     in
-    blackjack_print new_player;
-    if new_player.win_round = 1 then print_endline win
-    else if new_player.win_round = 0 then print_endline Text.draw
-    else if new_player.win_round = -2 then print_endline Text.bust
-    else if new_player.win_round = -3 then print_endline Text.loss_cpu
-    else if new_player.win_round = 2 then print_endline Text.tie_cpu
-    else print_endline Text.loss_dealer;
-    let finished_multiple_game = update_player new_player in
-    continue_playing (reset_player finished_multiple_game) dealer_init )
+    let p1 = fst new_player in
+    let p2 = snd new_player in
+    blackjack_print p1;
+    (*Delete when done*)
+    print_string (string_of_int p1.win_round);
+    print_string (string_of_int p2.win_round);
+    print_results p1 p2;
+    let finished_multiple_game = update_player p1 p2 in
+    continue_playing
+      (reset_player finished_multiple_game)
+      dealer_init cpu )
   else player
 
 (** [main ()] starts blackjack. *)
@@ -157,17 +171,20 @@ let main () =
   let player =
     start_round init_deck start_player dealer_init cpu_init cpu_lvl
   in
-  blackjack_print player;
-  if player.win_round = 1 then print_endline win
-  else if player.win_round = 0 then print_endline Text.draw
-  else if player.win_round = -2 then print_endline Text.bust
-  else if player.win_round = 2 then print_endline Text.tie_cpu
-  else if player.win_round = -3 then print_endline Text.loss_cpu
-  else print_endline Text.loss_dealer;
+  let p1 = fst player in
+  let p2 = snd player in
+  blackjack_print p1;
+  (*Delete when done*)
+  print_string (string_of_int p1.win_round);
+  print_string (string_of_int p2.win_round);
 
-  let finished_game = update_player player in
+  print_results p1 p2;
+
+  let finished_game = update_player p1 p2 in
   let player_cont =
-    continue_playing (reset_player finished_game) dealer_init
+    continue_playing
+      (reset_player finished_game)
+      dealer_init (reset_player p2)
   in
 
   if player_cont.chips <= 0 then print_endline Text.bankrupt

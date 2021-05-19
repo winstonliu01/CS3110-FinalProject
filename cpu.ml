@@ -32,11 +32,13 @@ let rec player_combo
   match player_card with
   | [] -> combo
   | h :: t ->
-      (*Fix the value for Ace*)
       if List.hd h.point <= ceiling then
         let combo' = combo -. 1. in
         player_combo t combo' ceiling
       else player_combo t combo ceiling
+
+let combo num =
+  if num >= 10 then float_of_int 10 *. 4. else float_of_int num *. 4.
 
 let rec cpu_smart_run_game
     (deck : deck)
@@ -48,39 +50,37 @@ let rec cpu_smart_run_game
     (deck, cpu) )
   else
     let valid_num = 21 - cpu.hand_val in
-    let valid_combo = float_of_int valid_num *. 4. in
+    let valid_combo = combo valid_num in
     let total_outcomes = 49 - List.length cpu.hand in
-    if dealer.hand_val <= valid_num then (
+    if dealer.hand_val <= valid_num then
       let valid_combo' = valid_combo -. 1. in
-      let valid_combo'' =
-        player_combo player.hand valid_combo' valid_num
-      in
-      let probability = valid_combo'' /. float_of_int total_outcomes in
-      ANSITerminal.print_string [ ANSITerminal.blue ]
-        ("\nThe CPU's probability is:" ^ string_of_float probability);
-      if probability >= 0.55 then (
-        let cpu' = cpu_update deck cpu in
-        ANSITerminal.print_string [ ANSITerminal.blue ]
-          "\nThe CPU's next card is: \n";
-        let deck' = remove deck in
-        card deck;
-        cpu_smart_run_game deck' cpu' dealer player )
-      else (deck, cpu) )
+      probability_func deck cpu dealer player valid_combo' valid_num
+        total_outcomes
     else
-      let valid_combo'' =
-        player_combo player.hand valid_combo valid_num
-      in
-      let probability = valid_combo'' /. float_of_int total_outcomes in
-      ANSITerminal.print_string [ ANSITerminal.blue ]
-        ("\nThe CPU's probability is:" ^ string_of_float probability);
-      if probability >= 0.55 then (
-        let cpu' = cpu_update deck cpu in
-        ANSITerminal.print_string [ ANSITerminal.blue ]
-          "\nThe CPU's next card is: \n";
-        let deck' = remove deck in
-        card deck;
-        cpu_smart_run_game deck' cpu' dealer player )
-      else (deck, cpu)
+      probability_func deck cpu dealer player valid_combo valid_num
+        total_outcomes
+
+and probability_func
+    (deck : deck)
+    (cpu : player)
+    (dealer : dealer)
+    (player : player)
+    (valid_combo : float)
+    (valid_num : int)
+    (total_outcomes : int) =
+  let valid_combo'' = player_combo player.hand valid_combo valid_num in
+
+  let probability = valid_combo'' /. float_of_int total_outcomes in
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    ("\nThe CPU's probability is:" ^ string_of_float probability);
+  if probability >= 0.55 then (
+    let cpu' = cpu_update deck cpu in
+    ANSITerminal.print_string [ ANSITerminal.blue ]
+      "\nThe CPU's next card is: \n";
+    let deck' = remove deck in
+    card deck;
+    cpu_smart_run_game deck' cpu' dealer player )
+  else (deck, cpu)
 
 let cpu_smart_game
     (deck : deck)
