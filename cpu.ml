@@ -2,31 +2,6 @@ open Text
 open Deck
 open Player
 
-(**Takes the first card from the deck and print it*)
-let card deck =
-  let c = draw deck in
-  print_card c
-
-(**Updates the CPU state*)
-let cpu_update (deck : deck) (player : player) =
-  let player_card = draw deck in
-  let updated_player =
-    point_add_player player.hand_val player_card player
-  in
-  let player =
-    {
-      hand = player.hand @ [ player_card ];
-      hand_val = updated_player.hand_val;
-      chips = player.chips;
-      bet = player.bet;
-      win_round = player.win_round;
-      is_blackjack = player.is_blackjack;
-      side_bet = player.side_bet;
-      is_cpu = player.is_cpu;
-    }
-  in
-  player
-
 (**Update how many cards we have seen based on what is in the player's
    hand*)
 let rec player_combo
@@ -86,7 +61,7 @@ and probability_func
       ( "\nThe CPU's probability of not busting is:"
       ^ string_of_float probability );
   if probability >= 0.55 then (
-    let cpu' = cpu_update deck cpu in
+    let cpu' = player_update deck cpu in
     ANSITerminal.print_string [ ANSITerminal.blue ]
       "\nThe CPU's next card is: \n";
     let deck' = remove deck in
@@ -103,12 +78,12 @@ let cpu_smart_game
   ANSITerminal.print_string [ ANSITerminal.blue ]
     "\nThe CPU's first card is: \n";
   print_card (draw deck);
-  let cpu_1 = cpu_update deck cpu in
+  let cpu_1 = player_update deck cpu in
   let updated_deck2 = remove deck in
   ANSITerminal.print_string [ ANSITerminal.blue ]
     "\nThe CPU's second card is: \n";
   print_card (draw updated_deck2);
-  let cpu_2 = cpu_update updated_deck2 cpu_1 in
+  let cpu_2 = player_update updated_deck2 cpu_1 in
   let updated_deck3 = remove updated_deck2 in
 
   if cpu_2.hand_val >= 17 then
@@ -141,7 +116,7 @@ let rec cpu_run_game (deck : deck) (cpu : player) (dealer : dealer) =
   else if cpu.hand_val >= 13 && cpu.hand_val <= 16 then (
     if dealer.hand_val >= 2 && dealer.hand_val <= 6 then (deck, cpu)
     else
-      let cpu' = cpu_update deck cpu in
+      let cpu' = player_update deck cpu in
       ANSITerminal.print_string [ ANSITerminal.blue ]
         "\nThe CPU's next card is: \n";
       let deck' = remove deck in
@@ -150,14 +125,14 @@ let rec cpu_run_game (deck : deck) (cpu : player) (dealer : dealer) =
   else if cpu.hand_val = 12 then (
     if dealer.hand_val >= 4 && dealer.hand_val <= 6 then (deck, cpu)
     else
-      let cpu' = cpu_update deck cpu in
+      let cpu' = player_update deck cpu in
       ANSITerminal.print_string [ ANSITerminal.blue ]
         "\nThe CPU's next card is: \n";
       let deck' = remove deck in
       card deck;
       cpu_run_game deck' cpu' dealer )
   else
-    let cpu' = cpu_update deck cpu in
+    let cpu' = player_update deck cpu in
     ANSITerminal.print_string [ ANSITerminal.blue ]
       "\nThe CPU's next card is: \n";
     let deck' = remove deck in
@@ -169,12 +144,12 @@ let cpu_game (deck : deck) (cpu : player) (dealer : dealer) =
   ANSITerminal.print_string [ ANSITerminal.blue ]
     "\nThe CPU's first card is: \n";
   print_card (draw deck);
-  let cpu_1 = cpu_update deck cpu in
+  let cpu_1 = player_update deck cpu in
   let updated_deck2 = remove deck in
   ANSITerminal.print_string [ ANSITerminal.blue ]
     "\nThe CPU's second card is: \n";
   print_card (draw updated_deck2);
-  let cpu_2 = cpu_update updated_deck2 cpu_1 in
+  let cpu_2 = player_update updated_deck2 cpu_1 in
   let updated_deck3 = remove updated_deck2 in
 
   if cpu_2.hand_val >= 17 then

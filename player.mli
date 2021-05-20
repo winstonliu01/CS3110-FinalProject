@@ -54,3 +54,6 @@ val point_add_player : int -> card -> player -> player
 (**[point_add_dealer] is the value after the current card has been
    applied to the total - and updates the dealer state*)
 val point_add_dealer : int -> card -> dealer -> dealer
+
+(**Updates the player state after drawing a card*)
+val player_update : deck -> player -> player

@@ -36,3 +36,6 @@ val sort_deck : deck -> deck
 
 (** [print_card card] is [card] displayed in our string format *)
 val print_card : card -> unit
+
+(**[card] prints out the first card in the deck*)
+val card : deck -> unit

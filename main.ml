@@ -122,8 +122,6 @@ let rec enter_bet (player : player) =
         else enter_bet player )
       else player_updated player 0 bet_entered
 
-(*Fix print_results - always entering last branch*)
-
 (**[print_results p1 user] Displays to console the result of the round
    for both CPU and player*)
 let print_results (p1 : player) (user : string) =
@@ -206,7 +204,8 @@ let main () =
   let p2 = snd player_cont in
 
   if p1.chips <= 0 then print_endline Text.bankrupt
-  else if p2.chips <= 0 then print_endline "The CPU went bankrupt"
+  else if p2.chips <= 0 then
+    print_endline "\nCongrats, you beated the CPU!\n"
   else
     print_endline
       ( "\nGoodbye, you leave the game with " ^ string_of_int p1.chips

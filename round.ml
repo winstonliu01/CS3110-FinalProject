@@ -5,33 +5,9 @@ open Cpu
 
 let init_deck = Deck.shuffle create
 
-let card (deck : deck) =
-  let c = draw deck in
-  print_card c
-
 let dd_draw (deck : deck) =
   card deck;
   draw deck
-
-(**Updates the player state after drawing a card*)
-let player_update (deck : deck) (player : player) =
-  let player_card = draw deck in
-  let updated_player =
-    point_add_player player.hand_val player_card player
-  in
-  let player =
-    {
-      hand = player.hand @ [ player_card ];
-      hand_val = updated_player.hand_val;
-      chips = player.chips;
-      bet = player.bet;
-      win_round = player.win_round;
-      is_blackjack = player.is_blackjack;
-      side_bet = player.side_bet;
-      is_cpu = player.is_cpu;
-    }
-  in
-  player
 
 (**Updates the dealer state after drawing a card*)
 let dealer_update (deck : deck) (dealer : dealer) =
@@ -89,7 +65,7 @@ let cpu_dealer_check (dealer : dealer) (cpu : player) =
     let cpu' = regular_player_state cpu 0 false in
     cpu'
   else if bust_checker_player cpu = true then
-    let cpu' = regular_player_state cpu (-1) false in
+    let cpu' = regular_player_state cpu (-2) false in
     cpu'
   else
     let cpu' = regular_player_state cpu 1 false in
@@ -122,7 +98,7 @@ let rec hit_player
     let updated_player = player_update new_deck player in
     if bust_checker_player updated_player = true then (
       let p1 = regular_player_state player (-2) false in
-      let dealer = dealer_cont deck dealer in
+      let dealer = dealer_cont (remove deck) dealer in
       print_endline dealer_remaining_card;
       if dealer.hand_val > 21 then
         print_endline "\nThe dealer busted!\n"
@@ -136,7 +112,7 @@ let rec hit_player
     if bust_checker_player updated_player = true then (
       let p1 = regular_player_state player (-2) false in
       print_endline dealer_remaining_card;
-      let dealer = dealer_cont deck dealer in
+      let dealer = dealer_cont (remove deck) dealer in
       if dealer.hand_val > 21 then
         print_endline "\nThe dealer busted!\n"
       else dealer_total dealer;

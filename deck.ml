@@ -152,3 +152,7 @@ let print_card_helper suite rank =
     print_list card_list
 
 let print_card (card : card) = print_card_helper card.suite card.rank
+
+let card (deck : deck) =
+  let c = draw deck in
+  print_card c

@@ -145,3 +145,22 @@ let point_add_dealer total card (dealer : dealer) =
   | _ ->
       let updated_total = total + List.hd card.point in
       { hand = dealer.hand; hand_val = updated_total }
+
+let player_update (deck : deck) (player : player) =
+  let player_card = Deck.draw deck in
+  let updated_player =
+    point_add_player player.hand_val player_card player
+  in
+  let player =
+    {
+      hand = player.hand @ [ player_card ];
+      hand_val = updated_player.hand_val;
+      chips = player.chips;
+      bet = player.bet;
+      win_round = player.win_round;
+      is_blackjack = player.is_blackjack;
+      side_bet = player.side_bet;
+      is_cpu = player.is_cpu;
+    }
+  in
+  player
