@@ -130,6 +130,12 @@ let print_results (p1 : player) (user : string) =
   else if p1.win_round = -2 then print_endline (user ^ ": " ^ Text.bust)
   else print_endline (user ^ ": " ^ Text.loss_dealer)
 
+(**[cpu_bet_print] prints how many chips the CPU has and bet*)
+let cpu_bet_print (cpu_bet : player) =
+  print_endline
+    ("The CPU has " ^ string_of_int cpu_bet.chips ^ " chips.");
+  print_endline ("The CPU bet: " ^ string_of_int cpu_bet.bet ^ " chips.")
+
 (** [continue_playing player dealer cpu] starts an additional round of
     blackjack passing in states from the prior game. *)
 let rec continue_playing
@@ -145,10 +151,7 @@ let rec continue_playing
     Text.level ();
     let cpu_lvl = level bet_player in
     let cpu_bet = cpu_bet cpu in
-    print_endline
-      ("The CPU has " ^ string_of_int cpu_bet.chips ^ " chips.");
-    print_endline
-      ("The CPU bet: " ^ string_of_int cpu_bet.bet ^ " chips.");
+    cpu_bet_print cpu_bet;
     let new_player =
       Round.start_round (shuffle init_deck) bet_player dealer_init
         cpu_bet cpu_lvl
@@ -177,9 +180,7 @@ let main () =
   Text.level ();
   let cpu_lvl = level start_player in
   let cpu_bet = cpu_bet cpu_init in
-  print_endline
-    ("The CPU has " ^ string_of_int cpu_bet.chips ^ " chips.");
-  print_endline ("The CPU bet: " ^ string_of_int cpu_bet.bet ^ " chips.");
+  cpu_bet_print cpu_bet;
   let player =
     Round.start_round init_deck start_player dealer_init cpu_bet cpu_lvl
   in
@@ -187,7 +188,6 @@ let main () =
   let p2 = snd player in
   blackjack_print p1;
 
-  (*Fix print statements - Formatting*)
   print_results p1 "Player";
   print_results p2 "CPU";
 

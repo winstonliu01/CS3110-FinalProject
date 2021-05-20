@@ -175,13 +175,8 @@ and double_down deck player dealer cpu =
     (p1, cpu)
   else stay_player deck' player' dealer cpu
 
-(**Preprocesses the game state and draws first two cards*)
-let start_game
-    (deck : deck)
-    (player : player)
-    (dealer : dealer)
-    (cpu : player)
-    (lvl : string) =
+(**Prints dealer's first card, player's first two cards and runs CPU*)
+let set_up_round deck player dealer cpu lvl =
   print_endline dealer_card1_string;
   print_card (draw deck);
 
@@ -198,11 +193,27 @@ let start_game
   let cpu_deck = remove updated_deck2 in
   let cpu_deck' = Cpu.run_cpu cpu_deck cpu dealer player_2 lvl in
   print_endline "\nNow it is your turn to play...\n";
+  (cpu_deck', player_2)
+
+let dealer_run cpu_deck' dealer =
+  let cpu_deck'' = fst cpu_deck' in
+  let dealer_blackjack = dealer_cont (remove cpu_deck'') dealer in
+  dealer_blackjack
+
+(**Preprocesses the game state and draws first two cards*)
+let start_game
+    (deck : deck)
+    (player : player)
+    (dealer : dealer)
+    (cpu : player)
+    (lvl : string) =
+  let begin_round = set_up_round deck player dealer cpu lvl in
+  let player_2 = snd begin_round in
+  let cpu_deck' = fst begin_round in
 
   if black_jack_checker player_2 = true then (
     print_endline dealer_remaining_card;
-    let cpu_deck'' = fst cpu_deck' in
-    let dealer_blackjack = dealer_cont (remove cpu_deck'') dealer in
+    let dealer_blackjack = dealer_run cpu_deck' dealer in
     if dealer_blackjack.hand_val = 21 then
       let p1 = regular_player_state player_2 0 true in
       (p1, cpu)
@@ -210,8 +221,7 @@ let start_game
       let p1 = regular_player_state player_2 1 true in
       (p1, cpu) )
   else if black_jack_checker cpu = true then
-    let cpu_deck'' = fst cpu_deck' in
-    let dealer_blackjack = dealer_cont (remove cpu_deck'') dealer in
+    let dealer_blackjack = dealer_run cpu_deck' dealer in
     if dealer_blackjack.hand_val = 21 then
       let cpu' = regular_player_state cpu 0 true in
       (player_2, cpu')
