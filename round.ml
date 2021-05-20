@@ -55,23 +55,6 @@ let regular_player_state (player : player) (win : int) (bj : bool) =
   }
 
 (**Checks the CPU performance against dealer*)
-let cpu_dealer_check (dealer : dealer) (cpu : player) =
-  if
-    dealer.hand_val > cpu.hand_val && bust_checker_dealer dealer = false
-  then
-    let cpu' = regular_player_state cpu (-1) false in
-    cpu'
-  else if dealer.hand_val = cpu.hand_val then
-    let cpu' = regular_player_state cpu 0 false in
-    cpu'
-  else if bust_checker_player cpu = true then
-    let cpu' = regular_player_state cpu (-2) false in
-    cpu'
-  else
-    let cpu' = regular_player_state cpu 1 false in
-    cpu'
-
-(**Checks the player's performance against dealer*)
 let player_dealer_check (dealer : dealer) (player : player) =
   if
     dealer.hand_val > player.hand_val
@@ -81,6 +64,9 @@ let player_dealer_check (dealer : dealer) (player : player) =
     player'
   else if dealer.hand_val = player.hand_val then
     let player' = regular_player_state player 0 false in
+    player'
+  else if bust_checker_player player = true then
+    let player' = regular_player_state player (-2) false in
     player'
   else
     let player' = regular_player_state player 1 false in
@@ -103,7 +89,7 @@ let rec hit_player
       if dealer.hand_val > 21 then
         print_endline "\nThe dealer busted!\n"
       else dealer_total dealer;
-      let cpu' = cpu_dealer_check dealer cpu in
+      let cpu' = player_dealer_check dealer cpu in
       (p1, cpu') )
     else parse_input new_deck updated_player dealer cpu )
   else (
@@ -116,7 +102,7 @@ let rec hit_player
       if dealer.hand_val > 21 then
         print_endline "\nThe dealer busted!\n"
       else dealer_total dealer;
-      let cpu' = cpu_dealer_check dealer cpu in
+      let cpu' = player_dealer_check dealer cpu in
       (p1, cpu') )
     else parse_input (remove deck) updated_player dealer cpu )
 
@@ -129,7 +115,7 @@ and stay_player deck (player : player) (dealer : dealer) (cpu : player)
   if dealer.hand_val > 21 then print_endline "\nThe dealer busted!\n"
   else dealer_total dealer;
 
-  let cpu' = cpu_dealer_check dealer cpu in
+  let cpu' = player_dealer_check dealer cpu in
   let player' = player_dealer_check dealer player in
   (player', cpu')
 

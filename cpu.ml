@@ -69,6 +69,21 @@ and probability_func
     cpu_smart_run_game deck' cpu' dealer player )
   else (deck, cpu)
 
+let begin_game
+    (deck : deck)
+    (cpu : player)
+    (dealer : dealer)
+    (player : player) =
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    "\nThe CPU's first card is: \n";
+  print_card (draw deck);
+  let cpu_1 = player_update deck cpu in
+  let updated_deck2 = remove deck in
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    "\nThe CPU's second card is: \n";
+  print_card (draw updated_deck2);
+  cpu_1
+
 (**Draws the first two cards and returns CPU handvalue*)
 let cpu_smart_game
     (deck : deck)

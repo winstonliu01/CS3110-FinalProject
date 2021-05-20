@@ -74,7 +74,7 @@ let cpu_bet (cpu : player) =
   let num2 = Random.int 4 + 1 in
   if cpu.chips <= 50 then player_updated cpu 0 (cpu.chips / num1)
   else
-    let bet = Stdlib.min (cpu.chips / num1 * num2) cpu.chips in
+    let bet = Stdlib.min (cpu.chips / num1 * num2) (cpu.chips / num2) in
     player_updated cpu 0 bet
 
 (** [update_player player] updates the player's chips based on their bet *)
@@ -205,7 +205,7 @@ let main () =
 
   if p1.chips <= 0 then print_endline Text.bankrupt
   else if p2.chips <= 0 then
-    print_endline "\nCongrats, you beated the CPU!\n"
+    print_endline "\nCongrats, you defeated the CPU!\n"
   else
     print_endline
       ( "\nGoodbye, you leave the game with " ^ string_of_int p1.chips
