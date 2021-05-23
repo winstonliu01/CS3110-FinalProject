@@ -103,7 +103,7 @@ let blackjack_print (player : player) =
     round. *)
 let rec enter_bet (player : player) =
   print_endline
-    ("\nYou now have " ^ string_of_int player.chips ^ " chips.");
+    ("\n\nYou now have " ^ string_of_int player.chips ^ " chips.");
   Text.place_bets ();
   let bet_placed = read_line () in
   match Command.check_bet bet_placed with
