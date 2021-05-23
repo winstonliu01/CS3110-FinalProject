@@ -254,7 +254,7 @@ let player_sidebet (player : player) (side_bet : int) =
 
 (**Asks the player to enter a side bet*)
 let rec side_bet (deck : deck) (player : player) (dealer : dealer) =
-  print_endline "\n Your side bet options are as follows: \n";
+  print_endline "\nYour side bet options are as follows: \n";
   print_endline "1. Your hand value is an odd number (5 chips)";
   print_endline "2. Your hand value is a prime number (10 chips)";
   print_endline "3. Your hand value is only hearts (50 chips) \n";
