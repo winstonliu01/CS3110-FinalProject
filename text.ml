@@ -32,7 +32,7 @@ let bankrupt = "\nSorry, you went bankrupt!\n"
 let level () =
   print_endline
     "\n\
-    \ There are two levels - Level 1 and Level 2. Which level do you \
+     There are two levels - Level 1 and Level 2. Which level do you \
      prefer? Please enter '1' or '2'. \n";
   print_string "> "
 

@@ -103,7 +103,7 @@ let blackjack_print (player : player) =
     round. *)
 let rec enter_bet (player : player) =
   print_endline
-    ("\nYou now have " ^ string_of_int player.chips ^ " chips.");
+    ("\n\nYou now have " ^ string_of_int player.chips ^ " chips.");
   Text.place_bets ();
   let bet_placed = read_line () in
   match Command.check_bet bet_placed with
@@ -133,7 +133,7 @@ let print_results (p1 : player) (user : string) =
 (**[cpu_bet_print] prints how many chips the CPU has and bet*)
 let cpu_bet_print (cpu_bet : player) =
   print_endline
-    ("\n The CPU has " ^ string_of_int cpu_bet.chips ^ " chips.");
+    ("\nThe CPU has " ^ string_of_int cpu_bet.chips ^ " chips.");
   print_endline
     ( "\nThe CPU decides to bet "
     ^ string_of_int cpu_bet.bet
