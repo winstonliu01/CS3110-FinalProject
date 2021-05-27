@@ -179,15 +179,10 @@ and double_down deck player dealer cpu =
 
 (**Prints dealer's first card, player's first two cards and runs CPU*)
 let set_up_round deck player dealer cpu lvl =
-  print_endline dealer_card1_string;
-  print_card (draw deck);
-
-  let dealer = dealer_update deck dealer in
-  let updated_deck = remove deck in
   print_endline "\nYour first card is: \n";
-  print_card (draw updated_deck);
-  let player_1 = player_update updated_deck player in
-  let updated_deck2 = remove updated_deck in
+  print_card (draw deck);
+  let player_1 = player_update deck player in
+  let updated_deck2 = remove deck in
   print_endline "\nYour second card is: \n";
   print_card (draw updated_deck2);
   let player_2 = player_update updated_deck2 player_1 in
@@ -202,6 +197,14 @@ let dealer_run cpu_deck' dealer =
   let dealer_blackjack = dealer_cont (remove cpu_deck'') dealer in
   dealer_blackjack
 
+let dealer_first deck dealer =
+  print_endline dealer_card1_string;
+  print_card (draw deck);
+
+  let dealer = dealer_update deck dealer in
+  let updated_deck = remove deck in
+  (dealer, updated_deck)
+
 (**Preprocesses the game state and draws first two cards*)
 let start_game
     (deck : deck)
@@ -209,13 +212,16 @@ let start_game
     (dealer : dealer)
     (cpu : player)
     (lvl : string) =
-  let begin_round = set_up_round deck player dealer cpu lvl in
+  let dfirst = dealer_first deck dealer in
+  let begin_round =
+    set_up_round (snd dfirst) player (fst dfirst) cpu lvl
+  in
   let player_2 = snd begin_round in
   let cpu_deck' = fst begin_round in
 
   if black_jack_checker player_2 = true then (
     print_endline dealer_remaining_card;
-    let dealer_blackjack = dealer_run cpu_deck' dealer in
+    let dealer_blackjack = dealer_run cpu_deck' (fst dfirst) in
     if dealer_blackjack.hand_val = 21 then
       let p1 = regular_player_state player_2 0 true in
       (p1, cpu)
@@ -223,7 +229,7 @@ let start_game
       let p1 = regular_player_state player_2 1 true in
       (p1, cpu) )
   else if black_jack_checker cpu = true then
-    let dealer_blackjack = dealer_run cpu_deck' dealer in
+    let dealer_blackjack = dealer_run cpu_deck' (fst dfirst) in
     if dealer_blackjack.hand_val = 21 then
       let cpu' = regular_player_state cpu 0 true in
       (player_2, cpu')
@@ -236,7 +242,7 @@ let start_game
     let cpu_updated = snd cpu_deck' in
     parse_input updated_deck3
       (player_2 : player)
-      (dealer : dealer)
+      (fst dfirst : dealer)
       (cpu_updated : player)
 
 (**Updates player based on their side bet*)
